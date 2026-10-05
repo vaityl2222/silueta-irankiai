@@ -124,7 +124,7 @@
       <label for="krutine" id="t-kr-label"></label>
       <div class="kaip">
         <span id="t-kr-kaip"></span>
-        <ul><li id="t-kr-1"></li><li id="t-kr-2"></li></ul>
+        <ul><li id="t-kr-1"></li><li id="t-kr-2"></li><li id="t-kr-3"></li></ul>
       </div>
       <div class="ivestis">
         <input id="krutine" type="text" inputmode="decimal" autocomplete="off" aria-describedby="klaida-krutine" placeholder="95">
@@ -233,9 +233,10 @@ lt: {
   po1:'juostą priglauskite tampriai',
   po2:'juosta turi eiti lygiagrečiai grindims',
   krLabel:'Krūtinės apimtis per pilniausią vietą, cm',
-  krKaip:'Matuokite stovint, dėvint gerai tinkančią liemenėlę be pakietinimo.',
-  kr1:'juosta turi eiti lygiagrečiai grindims ir priglusti',
-  kr2:'krūtinės nespauskite',
+  krKaip:'Matuokite tik su liemenėle be pakietinimo. Jokių marškinėlių, palaidinės ar kito viršaus: net plonas drabužis suspaudžia ir rezultatas sumažėja keliais centimetrais.',
+  kr1:'stovėkite tiesiai, nesusikūprinusi',
+  kr2:'juostą laikykite laisvai, nespauskite krūtinės',
+  kr3:'juosta turi eiti lygiagrečiai grindims',
   skaiciuoti:'Apskaičiuoti dydį',
   klaidaPoTuscia:'Įveskite apimtį po krūtine.',
   klaidaKrTuscia:'Įveskite krūtinės apimtį.',
@@ -271,9 +272,10 @@ en: {
   po1:'keep the tape firm against the body',
   po2:'the tape must stay parallel to the floor',
   krLabel:'Bust measurement at the fullest point, cm',
-  krKaip:'Measure standing, wearing a well-fitting non-padded bra.',
-  kr1:'the tape must stay parallel to the floor and lie flat',
-  kr2:'do not compress the bust',
+  krKaip:'Measure wearing only a non-padded bra. No t-shirt, blouse or any other top: even thin fabric compresses the bust and the result drops by several centimetres.',
+  kr1:'stand up straight, do not hunch',
+  kr2:'hold the tape loosely, do not compress the bust',
+  kr3:'the tape must stay parallel to the floor',
   skaiciuoti:'Calculate my size',
   klaidaPoTuscia:'Please enter your underbust measurement.',
   klaidaKrTuscia:'Please enter your bust measurement.',
@@ -309,9 +311,10 @@ ru: {
   po1:'ленту прижмите плотно',
   po2:'лента должна идти параллельно полу',
   krLabel:'Обхват груди по самой полной точке, см',
-  krKaip:'Измеряйте стоя, в хорошо подходящем бюстгальтере без уплотнения.',
-  kr1:'лента должна идти параллельно полу и прилегать',
-  kr2:'грудь не сдавливайте',
+  krKaip:'Измеряйте только в бюстгальтере без уплотнения. Без футболки, блузки или другого верха: даже тонкая ткань сдавливает грудь, и результат уменьшается на несколько сантиметров.',
+  kr1:'стойте прямо, не сутультесь',
+  kr2:'ленту держите свободно, грудь не сдавливайте',
+  kr3:'лента должна идти параллельно полу',
   skaiciuoti:'Рассчитать размер',
   klaidaPoTuscia:'Введите обхват под грудью.',
   klaidaKrTuscia:'Введите обхват груди.',
@@ -526,7 +529,7 @@ function irasytiTekstus(){
   const p = {
     't-h1':T.h1, 't-santrauka':T.santrauka,
     't-po-label':T.poLabel, 't-po-kaip':T.poKaip, 't-po-1':T.po1, 't-po-2':T.po2,
-    't-kr-label':T.krLabel, 't-kr-kaip':T.krKaip, 't-kr-1':T.kr1, 't-kr-2':T.kr2,
+    't-kr-label':T.krLabel, 't-kr-kaip':T.krKaip, 't-kr-1':T.kr1, 't-kr-2':T.kr2, 't-kr-3':T.kr3,
     't-skaiciuoti':T.skaiciuoti, 't-porastes-smulkiau':T.porasteSmulkiau
   };
   for (const id in p) { const e = document.getElementById(id); if (e) e.textContent = p[id]; }

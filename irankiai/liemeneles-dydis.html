@@ -125,6 +125,7 @@
       <div class="kaip">
         <span id="t-kr-kaip"></span>
         <ul><li id="t-kr-1"></li><li id="t-kr-2"></li><li id="t-kr-3"></li></ul>
+        <p id="t-kr-antras" style="margin-top:10px"></p>
       </div>
       <div class="ivestis">
         <input id="krutine" type="text" inputmode="decimal" autocomplete="off" aria-describedby="klaida-krutine" placeholder="95">
@@ -237,6 +238,7 @@ lt: {
   kr1:'stovėkite tiesiai, nesusikūprinusi',
   kr2:'juostą laikykite laisvai, nespauskite krūtinės',
   kr3:'juosta turi eiti lygiagrečiai grindims',
+  krAntras:'Pasimatuokite ir pasilenkusi į priekį, kad krūtys laisvai nusileistų: taip juosta pagauna ir tą audinį, kuris stovint pasislenka į šonus. Jei skaičiai skiriasi, veskite didesnį arba abiejų vidurkį, o paskui pasimatuokite abu gautus dydžius.',
   skaiciuoti:'Apskaičiuoti dydį',
   klaidaPoTuscia:'Įveskite apimtį po krūtine.',
   klaidaKrTuscia:'Įveskite krūtinės apimtį.',
@@ -276,6 +278,7 @@ en: {
   kr1:'stand up straight, do not hunch',
   kr2:'hold the tape loosely, do not compress the bust',
   kr3:'the tape must stay parallel to the floor',
+  krAntras:'Measure again leaning forward, so the breasts hang freely: this way the tape also catches the tissue that shifts to the sides when standing. If the two numbers differ, enter the larger one or the average, then try on both sizes.',
   skaiciuoti:'Calculate my size',
   klaidaPoTuscia:'Please enter your underbust measurement.',
   klaidaKrTuscia:'Please enter your bust measurement.',
@@ -315,6 +318,7 @@ ru: {
   kr1:'стойте прямо, не сутультесь',
   kr2:'ленту держите свободно, грудь не сдавливайте',
   kr3:'лента должна идти параллельно полу',
+  krAntras:'Измерьте ещё раз, наклонившись вперёд, чтобы грудь свободно опустилась: так лента захватывает и ту ткань, которая стоя смещается в стороны. Если числа отличаются, вводите большее или среднее, а потом примерьте оба размера.',
   skaiciuoti:'Рассчитать размер',
   klaidaPoTuscia:'Введите обхват под грудью.',
   klaidaKrTuscia:'Введите обхват груди.',
@@ -529,7 +533,7 @@ function irasytiTekstus(){
   const p = {
     't-h1':T.h1, 't-santrauka':T.santrauka,
     't-po-label':T.poLabel, 't-po-kaip':T.poKaip, 't-po-1':T.po1, 't-po-2':T.po2,
-    't-kr-label':T.krLabel, 't-kr-kaip':T.krKaip, 't-kr-1':T.kr1, 't-kr-2':T.kr2, 't-kr-3':T.kr3,
+    't-kr-label':T.krLabel, 't-kr-kaip':T.krKaip, 't-kr-1':T.kr1, 't-kr-2':T.kr2, 't-kr-3':T.kr3, 't-kr-antras':T.krAntras,
     't-skaiciuoti':T.skaiciuoti, 't-porastes-smulkiau':T.porasteSmulkiau
   };
   for (const id in p) { const e = document.getElementById(id); if (e) e.textContent = p[id]; }

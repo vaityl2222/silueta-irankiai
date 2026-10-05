@@ -1,0 +1,155 @@
+/* Silueta - irankiu svetaine. Spalvos ir sriftas is context/stilius.md, nieko pridurta. */
+
+:root{
+  /* firminiai, is context/stilius.md */
+  --ruda:#491311;
+  --oranzine:#F7941D;
+  --bordo:#85304A;
+  --bordo-tamsus:#4E1A28;
+  --terakota:#9E4B2F;
+  --smelis:#E3E0DA;
+  --siltas-smelis:#EACDAA;
+  --pudra:#D8A095;
+  --tamsi:#231F20;
+  --antrinis:#606060;
+  --linijos:#8A888A;
+  --balta:#FFFFFF;
+
+  /* vaidmenys puslapyje */
+  --fonas:#F6F4F1;
+  --pavirsius:var(--balta);
+  --tekstas:var(--tamsi);
+  --tekstas-silpnas:var(--antrinis);
+  --konturas:#D8D4CE;
+  --akcentas:var(--oranzine);
+  --ant-akcento:#2A1403;
+
+  --r:6px;
+  --max:1120px;
+  --sriftas:'Roboto','Segoe UI',Arial,sans-serif;
+}
+
+@media (prefers-color-scheme:dark){
+  :root{
+    --fonas:#1C1413;
+    --pavirsius:#261B19;
+    --tekstas:#F2EDE9;
+    --tekstas-silpnas:#B6ACA6;
+    --konturas:#3E2E2B;
+    --smelis:#2E2220;
+    --siltas-smelis:#33241F;
+    --pudra:#3A2522;
+  }
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--fonas);
+  color:var(--tekstas);
+  font-family:var(--sriftas);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+h1,h2,h3{margin:0;font-weight:900;letter-spacing:-.025em;line-height:1.05}
+p{margin:0 0 1em}
+p:last-child{margin-bottom:0}
+
+.vidus{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+/* --- virsutine juosta --- */
+.virsus{background:var(--ruda);padding:16px 0}
+.virsus .vidus{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.virsus img{height:72px;width:auto}
+.virsus a{color:var(--siltas-smelis);text-decoration:none;font-size:.9rem;font-weight:500}
+.virsus a:hover{color:var(--oranzine)}
+
+/* --- hero --- */
+.hero{background:var(--ruda);color:var(--siltas-smelis);overflow:hidden}
+.hero .vidus{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;
+  padding-top:40px;padding-bottom:40px;
+}
+.hero h1{color:var(--balta);font-size:clamp(2.1rem,5.2vw,3.9rem)}
+.hero h1 .nelauzti{white-space:nowrap}
+.hero p{margin-top:18px;max-width:46ch;color:var(--siltas-smelis);font-size:1.05rem;opacity:.92}
+.hero-3d{
+  position:relative;aspect-ratio:16/10;border-radius:var(--r);overflow:hidden;
+  background:var(--ruda);box-shadow:0 18px 50px rgba(20,6,5,.45);
+}
+.hero-3d iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* --- irankiu tinklelis --- */
+.irankiai{padding:56px 0 20px}
+.irankiai > .vidus > h2{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:6px}
+.irankiai .paaiskinimas{color:var(--tekstas-silpnas);margin-bottom:28px;max-width:52ch}
+
+.tinklelis{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.plytele{
+  display:flex;flex-direction:column;justify-content:space-between;gap:28px;
+  padding:26px;border-radius:var(--r);text-decoration:none;color:var(--tamsi);
+  border:1px solid transparent;min-height:210px;
+  transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s;
+}
+.plytele:hover,.plytele:focus-visible{transform:translateY(-3px);box-shadow:0 14px 34px rgba(73,19,17,.16)}
+.plytele:active{transform:translateY(0) scale(.995)}
+.plytele.didele{grid-column:1 / -1;flex-direction:row;align-items:flex-end;min-height:240px}
+.plytele.didele .turinys{max-width:40ch}
+.plytele h3{font-size:1.45rem;margin-bottom:8px}
+.plytele.didele h3{font-size:clamp(1.6rem,3.2vw,2.3rem)}
+.plytele .apie{color:#4A3B35;font-size:.98rem}
+.plytele .veiksmas{
+  align-self:flex-start;flex:none;
+  background:var(--ruda);color:var(--siltas-smelis);
+  padding:11px 20px;border-radius:var(--r);font-weight:700;font-size:.95rem;white-space:nowrap;
+}
+.plytele.didele .veiksmas{align-self:flex-end}
+
+/* fonai: kiekvienas irankis turi savo lauka, ne sese vienodos baltos korteles */
+.f-smelis{background:var(--smelis)}
+.f-siltas{background:var(--siltas-smelis)}
+.f-pudra{background:var(--pudra)}
+.f-smelis .apie,.f-siltas .apie,.f-pudra .apie{color:#4A3B35}
+
+/* --- kas tai daro --- */
+.autore{padding:56px 0}
+.autore .vidus{
+  display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:center;
+  background:var(--pavirsius);border:1px solid var(--konturas);border-radius:var(--r);
+  padding:28px;max-width:calc(var(--max) - 40px);
+}
+.autore img{border-radius:var(--r);width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 18%}
+.autore h2{font-size:1.35rem;margin-bottom:10px}
+.autore p{color:var(--tekstas-silpnas);max-width:62ch}
+
+/* --- poraste --- */
+.poraste{background:var(--ruda);color:var(--siltas-smelis);padding:34px 0;margin-top:40px}
+.poraste .vidus{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.poraste img{height:76px;width:auto}
+.poraste a{color:var(--oranzine);font-weight:700;text-decoration:none}
+.poraste a:hover{text-decoration:underline}
+.poraste small{display:block;color:#C3A98F;font-size:.8rem;margin-top:6px;font-weight:300}
+
+/* --- fokusas --- */
+:focus-visible{outline:3px solid var(--oranzine);outline-offset:3px;border-radius:3px}
+
+@media (max-width:860px){
+  .hero .vidus{grid-template-columns:1fr;gap:26px;padding-top:28px;padding-bottom:32px}
+  .hero-3d{aspect-ratio:16/10;order:-1}
+  .hero p{max-width:none}
+  .tinklelis{grid-template-columns:1fr}
+  .plytele,.plytele.didele{flex-direction:column;align-items:stretch;min-height:0}
+  .plytele.didele .veiksmas,.plytele .veiksmas{align-self:flex-start}
+  .autore .vidus{grid-template-columns:1fr;text-align:left}
+  .autore img{max-width:150px}
+  .irankiai{padding-top:40px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}

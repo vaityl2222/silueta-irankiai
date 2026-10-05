@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liemenėlės dydžio skaičiuoklė | Silueta</title>
+<meta name="description" content="Pagal du matmenis apskaičiuokite orientacinį liemenėlės dydį, nuo kurio verta pradėti matavimąsi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap&subset=latin-ext" rel="stylesheet">
+<link rel="icon" href="../vizualai/silueta-logo-spalvotas-web.png">
+<link rel="stylesheet" href="../stilius.css">
+<style>
+/* --- skaiciuokles sluoksnis, remiasi stilius.css tokenais --- */
+.darbas{max-width:620px;margin:0 auto;padding:36px 20px 64px}
+
+.ivadas h1{font-size:clamp(1.75rem,4.6vw,2.6rem);margin-bottom:14px}
+.ivadas .santrauka{color:var(--tekstas-silpnas);max-width:52ch}
+
+.laukas{margin:26px 0}
+.laukas label{display:block;font-weight:700;margin-bottom:4px}
+.laukas .kaip{color:var(--tekstas-silpnas);font-size:.92rem;margin-bottom:10px;max-width:50ch}
+.laukas .kaip ul{margin:6px 0 0;padding-left:18px}
+.laukas .kaip li{margin-bottom:2px}
+.ivestis{display:flex;align-items:center;gap:10px;max-width:260px}
+.ivestis input{
+  flex:1;min-width:0;font:inherit;font-size:1.1rem;padding:13px 14px;border-radius:var(--r);
+  border:1.5px solid var(--konturas);background:var(--pavirsius);color:var(--tekstas);
+}
+.ivestis input:focus{outline:none;border-color:var(--oranzine);box-shadow:0 0 0 3px color-mix(in srgb,var(--oranzine) 28%,transparent)}
+.ivestis .vnt{color:var(--tekstas-silpnas);flex:none}
+.klaida{color:#9C2415;font-size:.92rem;margin-top:8px;font-weight:500;max-width:52ch}
+.laukas.bloga input{border-color:#9C2415}
+@media (prefers-color-scheme:dark){.klaida{color:#F3907E}}
+
+.mygtukas{
+  font:inherit;font-weight:700;font-size:1.02rem;cursor:pointer;border:0;border-radius:var(--r);
+  padding:15px 30px;background:var(--oranzine);color:var(--ant-akcento);
+  transition:filter .15s,transform .1s;
+}
+.mygtukas:hover{filter:brightness(1.06)}
+.mygtukas:active{transform:translateY(1px)}
+.mygtukas.antrinis{background:transparent;color:var(--tekstas);border:1.5px solid var(--konturas);font-weight:500}
+.mygtukas.antrinis:hover{border-color:var(--linijos)}
+
+/* --- rezultatas --- */
+#rezultatas{margin-top:34px}
+#rezultatas[hidden]{display:none}
+.atsakymas{background:var(--ruda);color:#F3E7DC;border-radius:var(--r);padding:28px 26px}
+.atsakymas .antraste{font-size:1.02rem;font-weight:300;color:var(--siltas-smelis);margin-bottom:10px}
+/* margin-bottom nurodomas pikseliais: 1em prie 74px šrifto duotų 74px tarpą */
+.atsakymas .dydis{font-size:clamp(3rem,13vw,4.6rem);font-weight:900;letter-spacing:-.03em;line-height:.95;color:var(--oranzine);margin:0}
+.atsakymas .nuo-kur{margin-top:18px;font-weight:700;color:#fff}
+.atsakymas .smulkiau{margin-top:10px;font-size:.96rem;color:#E2D3C6}
+
+.pagrindinis-cta{
+  display:inline-block;margin-top:20px;background:var(--oranzine);color:var(--ant-akcento);
+  text-decoration:none;font-weight:700;padding:15px 28px;border-radius:var(--r);
+}
+.pagrindinis-cta:hover{filter:brightness(1.06)}
+
+.bloke{margin-top:26px;padding:20px 22px;border-radius:var(--r);background:var(--smelis);color:#3E2B24}
+.bloke h2{font-size:1.1rem;margin-bottom:8px}
+.bloke p{font-size:.97rem}
+.bloke .antrinis-cta{
+  display:inline-block;margin-top:14px;text-decoration:none;font-weight:700;font-size:.95rem;
+  color:var(--ruda);border-bottom:2px solid var(--oranzine);padding-bottom:2px;
+}
+@media (prefers-color-scheme:dark){.bloke{color:var(--tekstas)}.bloke .antrinis-cta{color:var(--oranzine)}}
+
+.seseriniai{margin-top:22px;border-left:3px solid var(--pudra);padding:4px 0 4px 16px}
+.seseriniai p{font-size:.96rem;color:var(--tekstas-silpnas)}
+.seseriniai strong{color:var(--tekstas)}
+
+.nepavyko .atsakymas{background:var(--bordo-tamsus)}
+.nepavyko .atsakymas .antraste{font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:12px}
+
+.islyga{margin-top:30px;font-size:.88rem;color:var(--tekstas-silpnas);line-height:1.55;max-width:60ch}
+.islyga strong{color:var(--tekstas)}
+</style>
+</head>
+<body>
+
+<header class="virsus">
+  <div class="vidus">
+    <a href="../index.html" aria-label="Silueta įrankiai"><img src="../vizualai/silueta-logo-baltas-web.png" alt="Silueta"></a>
+    <a href="https://www.silueta.lt">silueta.lt</a>
+  </div>
+</header>
+
+<main class="darbas">
+
+  <div class="ivadas">
+    <h1>Liemenėlės dydžio skaičiuoklė</h1>
+    <p class="santrauka">Pagal du matmenis apskaičiuosime orientacinį dydį, nuo kurio verta pradėti matavimąsi.</p>
+  </div>
+
+  <form id="forma" novalidate>
+
+    <div class="laukas" data-laukas="po">
+      <label for="po">Apimtis po krūtine, cm</label>
+      <div class="kaip">
+        Matuokite ant nuogo kūno, iš karto po krūtine, iškvėpusi.
+        <ul>
+          <li>juostą priglauskite gana tampriai</li>
+          <li>juosta turi eiti horizontaliai aplink kūną</li>
+        </ul>
+      </div>
+      <div class="ivestis">
+        <input id="po" type="text" inputmode="decimal" autocomplete="off" aria-describedby="klaida-po" placeholder="pvz. 76">
+        <span class="vnt">cm</span>
+      </div>
+      <p class="klaida" id="klaida-po" hidden></p>
+    </div>
+
+    <div class="laukas" data-laukas="krutine">
+      <label for="krutine">Krūtinės apimtis per pilniausią vietą, cm</label>
+      <div class="kaip">
+        Matuokite stovint, dėvint gerai tinkančią nepakietintą liemenėlę.
+        <ul>
+          <li>juosta turi eiti horizontaliai ir priglusti</li>
+          <li>krūties nespauskite</li>
+        </ul>
+      </div>
+      <div class="ivestis">
+        <input id="krutine" type="text" inputmode="decimal" autocomplete="off" aria-describedby="klaida-krutine" placeholder="pvz. 95">
+        <span class="vnt">cm</span>
+      </div>
+      <p class="klaida" id="klaida-krutine" hidden></p>
+    </div>
+
+    <p class="klaida" id="klaida-bendra" hidden></p>
+
+    <button class="mygtukas" type="submit">Apskaičiuoti dydį</button>
+  </form>
+
+  <section id="rezultatas" hidden aria-live="polite"></section>
+
+  <p class="islyga">
+    <strong>Svarbu:</strong> skaičiuoklės pateikiamas dydis yra orientacinis ir skirtas padėti pasirinkti dydį,
+    nuo kurio verta pradėti matavimąsi. Skirtingų gamintojų, kolekcijų ir modelių dydžiai bei konstrukcijos gali
+    skirtis. Net ir tinkamas dydis nebūtinai reiškia, kad konkretus liemenėlės modelis tiks Jūsų krūtinės formai.
+  </p>
+
+</main>
+
+<footer class="poraste">
+  <div class="vidus">
+    <img src="../vizualai/silueta-logo-baltas-web.png" alt="Silueta">
+    <div>
+      <a href="https://www.silueta.lt">silueta.lt</a>
+      <small>Dydžio nustatymo metodika iš straipsnio „Kaip išsirinkti liemenėlės dydį?“</small>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================================
+   Liemenėlės dydžio skaičiuoklė
+   Metodika paimta iš silueta.lt straipsnio /kaip-issirinkti-liemeneles-dydi
+   Dydžių filtro ID surinkti iš liemenėlių kategorijos filtro (attr[158][])
+   ========================================================================= */
+
+/* --- EU kaušelių skalė. Riba priklauso DIDESNIAM kaušeliui:
+       17,5 -> D, 19,5 -> E. Tai reiškia intervalą [nuo, iki). --- */
+const KAUSELIAI = [
+  { nuo: 10,   iki: 12.5, k: 'AA' },
+  { nuo: 12.5, iki: 13.5, k: 'A'  },
+  { nuo: 13.5, iki: 15.5, k: 'B'  },
+  { nuo: 15.5, iki: 17.5, k: 'C'  },
+  { nuo: 17.5, iki: 19.5, k: 'D'  },
+  { nuo: 19.5, iki: 21.5, k: 'E'  },
+  { nuo: 21.5, iki: 23.5, k: 'F'  },
+  { nuo: 23.5, iki: 25.5, k: 'G'  },
+  { nuo: 25.5, iki: 27,   k: 'H'  },
+  /* toliau tęsiama 2 cm žingsniu */
+  { nuo: 27,   iki: 29,   k: 'I'  },
+  { nuo: 29,   iki: 31,   k: 'J'  },
+  { nuo: 31,   iki: 33,   k: 'K'  },
+  { nuo: 33,   iki: 35,   k: 'L'  },
+  { nuo: 35,   iki: 37,   k: 'M'  },
+  { nuo: 37,   iki: 39,   k: 'N'  },
+  { nuo: 39,   iki: 41,   k: 'O'  },
+  { nuo: 41,   iki: 43,   k: 'P'  }
+];
+
+/* Kaušelių seka seseriniams dydžiams skaičiuoti.
+   Ilgesnė už skalę: skaičiuoklė dydžio virš P nebenustato, bet seserinis
+   dydis gali į Q ar R pataikyti, o tokių Siluetos asortimente yra. */
+const SEKA = ['AA','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R'];
+
+/* EU juostos dydžiai */
+const JUOSTOS = [60,65,70,75,80,85,90,95,100,105,110,115,120];
+
+/* Ribos, už kurių skaičiuoklė nebespėlioja */
+const RIBOS = { poMin: 57.5, poMax: 122.5, krutineMin: 60, krutineMax: 200 };
+
+/* Dydžių filtro ID silueta.lt liemenėlių kategorijoje.
+   Jei dydžio čia nėra, prekių nuoroda nerodoma. */
+const FILTRAS = {
+"60G":636,"60H":637,"60I":638,"60J":658,"60K":656,
+"65B":231,"65C":232,"65D":233,"65E":234,"65F":235,"65G":236,"65H":419,"65I":392,"65J":394,"65K":554,"65L":786,"65M":711,
+"70A":31,"70B":32,"70C":33,"70D":39,"70E":40,"70F":41,"70G":42,"70H":43,"70I":44,"70J":389,"70K":501,"70L":502,"70M":535,"70N":560,"70O":569,"70P":731,"70Q":1058,"70R":1062,
+"75A":45,"75AA":716,"75B":46,"75C":47,"75D":48,"75E":49,"75F":50,"75G":51,"75H":52,"75I":53,"75J":396,"75K":405,"75L":487,"75M":552,"75N":561,"75O":575,"75P":732,"75Q":1059,"75R":1057,
+"80A":54,"80AA":666,"80B":55,"80C":56,"80D":57,"80E":58,"80F":59,"80G":60,"80H":61,"80I":62,"80J":393,"80K":406,"80L":534,"80M":536,"80N":562,"80O":576,"80P":733,"80Q":1060,
+"85A":63,"85B":64,"85C":65,"85D":66,"85E":67,"85F":68,"85G":69,"85H":70,"85I":71,"85J":407,"85K":408,"85L":497,"85M":503,"85N":563,"85O":577,"85P":734,"85Q":1061,
+"90A":72,"90B":73,"90C":74,"90D":75,"90E":76,"90F":77,"90G":78,"90H":349,"90I":421,"90J":498,"90K":499,"90L":500,"90M":537,"90N":564,"90O":889,
+"95B":80,"95C":81,"95D":82,"95E":83,"95F":84,"95G":85,"95H":391,"95I":506,"95J":458,"95K":591,"95L":592,"95M":1138,"95N":1139,"95O":1140,
+"100A":611,"100B":86,"100C":87,"100D":88,"100E":89,"100F":90,"100G":764,"100H":773,"100I":751,"100J":971,"100K":972,"100L":973,"100M":1135,"100N":1136,"100O":1137,
+"105A":612,"105B":91,"105C":92,"105D":93,"105E":94,"105F":613,"105G":505,"105H":504,
+"110A":237,"110B":238,"110C":239,"110D":240,"110E":241,"110F":614,"110H":802,
+"115A":615,"115B":616,"115C":617,"115D":618,"115E":619,"115F":620
+};
+
+const KATEGORIJA = 'https://www.silueta.lt/apatinis-trikotazas/liemeneles';
+const REGISTRACIJA = 'https://www.silueta.lt/registruokites-individualiai-konsultacijai-2';
+
+/* ---------- skaičiavimas ---------- */
+
+/* juosta: įprastas apvalinimas iki artimiausio penketo */
+function juostosDydis(po){
+  return Math.round(po / 5) * 5;
+}
+
+/* kaušelis pagal skirtumą; null, jei nepatenka į skalę */
+function kauselioDydis(skirtumas){
+  for (const x of KAUSELIAI) {
+    if (skirtumas >= x.nuo && skirtumas < x.iki) return x.k;
+  }
+  /* viršutinė paskutinio intervalo riba įskaitoma */
+  const p = KAUSELIAI[KAUSELIAI.length - 1];
+  if (skirtumas === p.iki) return p.k;
+  return null;
+}
+
+/* seserinis dydis: juosta vienu žingsniu, kaušelis priešinga kryptimi */
+function seserinis(juosta, kauselis, kryptis){
+  const jIdx = JUOSTOS.indexOf(juosta) + kryptis;
+  const kIdx = SEKA.indexOf(kauselis) - kryptis;
+  if (jIdx < 0 || jIdx >= JUOSTOS.length) return null;
+  if (kIdx < 0 || kIdx >= SEKA.length) return null;
+  const dydis = JUOSTOS[jIdx] + SEKA[kIdx];
+  /* rodomas tik tada, kai toks dydis yra Siluetos asortimente */
+  return FILTRAS[dydis] ? dydis : null;
+}
+
+function filtroNuoroda(dydis){
+  const id = FILTRAS[dydis];
+  return id ? KATEGORIJA + '?attr%5B158%5D%5B%5D=' + id : null;
+}
+
+/* ---------- įvesties tikrinimas ---------- */
+
+function skaicius(tekstas){
+  const t = String(tekstas).trim().replace(',', '.');
+  if (t === '') return null;
+  if (!/^\d+(\.\d+)?$/.test(t)) return NaN;
+  return parseFloat(t);
+}
+
+function rodytiKlaida(laukas, tekstas){
+  const blokas = document.querySelector('[data-laukas="' + laukas + '"]');
+  const p = document.getElementById('klaida-' + laukas);
+  if (blokas) blokas.classList.add('bloga');
+  p.textContent = tekstas;
+  p.hidden = false;
+}
+
+function valytiKlaidas(){
+  document.querySelectorAll('.laukas').forEach(e => e.classList.remove('bloga'));
+  document.querySelectorAll('.klaida').forEach(e => { e.hidden = true; e.textContent = ''; });
+}
+
+/* ---------- rezultato piešimas ---------- */
+
+function el(zyme, klase, tekstas){
+  const e = document.createElement(zyme);
+  if (klase) e.className = klase;
+  if (tekstas != null) e.textContent = tekstas;
+  return e;
+}
+
+function rodytiRezultata(dydis, juosta, kauselis){
+  const sritis = document.getElementById('rezultatas');
+  sritis.textContent = '';
+  sritis.className = '';
+
+  const a = el('div','atsakymas');
+  a.appendChild(el('p','antraste','Pagal Jūsų pateiktus matmenis orientacinis liemenėlės dydis'));
+  const d = el('p','dydis', dydis);
+  d.tabIndex = -1;
+  a.appendChild(d);
+  a.appendChild(el('p','nuo-kur','Tai dydis, nuo kurio rekomenduojame pradėti matavimąsi.'));
+  a.appendChild(el('p','smulkiau','Skirtingų gamintojų ir modelių dydžiai gali šiek tiek skirtis. Be to, tinkamas dydis dar nereiškia, kad tiks kiekviena to dydžio liemenėlė: labai svarbi ir kaušelio forma, jo gylis, lankelių plotis bei visa liemenėlės konstrukcija.'));
+  sritis.appendChild(a);
+
+  /* pagrindinis CTA arba paaiškinimas, jei tokio dydžio parduotuvėje nėra */
+  const nuoroda = filtroNuoroda(dydis);
+  if (nuoroda) {
+    const cta = el('a','pagrindinis-cta','Peržiūrėti ' + dydis + ' dydžio liemenėles');
+    cta.href = nuoroda;
+    cta.target = '_blank';
+    cta.rel = 'noopener';
+    sritis.appendChild(cta);
+  } else {
+    const b = el('div','bloke');
+    b.appendChild(el('p', null, 'Šiuo metu internetinėje parduotuvėje šio dydžio pasirinkimas gali būti ribotas. Užsukite į SILUETA parduotuvę: padėsime patikrinti dydį ir galimus modelius.'));
+    sritis.appendChild(b);
+  }
+
+  /* seseriniai dydžiai kaip papildoma informacija */
+  const maziau = seserinis(juosta, kauselis, -1);
+  const daugiau = seserinis(juosta, kauselis, +1);
+  if (maziau || daugiau) {
+    const s = el('div','seseriniai');
+    const p = el('p');
+    p.appendChild(document.createTextNode('Priklausomai nuo konkretaus modelio gali tikti ir gretimas, vadinamasis seserinis, dydis. Kai kuriuose modeliuose verta pasimatuoti ir '));
+    const sarasas = [maziau, daugiau].filter(Boolean);
+    sarasas.forEach((x, i) => {
+      if (i > 0) p.appendChild(document.createTextNode(' arba '));
+      p.appendChild(el('strong', null, x));
+    });
+    p.appendChild(document.createTextNode('.'));
+    s.appendChild(p);
+    sritis.appendChild(s);
+  }
+
+  /* kvietimas į saloną */
+  const kv = el('div','bloke');
+  kv.appendChild(el('h2', null, 'Nesate tikra dėl dydžio?'));
+  kv.appendChild(el('p', null, 'Užsukite į SILUETA parduotuvę Vilniuje. Padėsime patikrinti dydį ir parinkti Jūsų krūtinės formai tinkamus modelius. Turime vieną plačiausių dydžių pasirinkimų: skirtingų gamintojų asortimente kaušeliai siekia net P.'));
+  const reg = el('a','antrinis-cta','Registruotis konsultacijai');
+  reg.href = REGISTRACIJA;
+  reg.target = '_blank';
+  reg.rel = 'noopener';
+  const regP = el('p');
+  regP.style.marginTop = '12px';
+  regP.textContent = 'Jeigu taupote laiką, norite daugiau individualaus dėmesio arba konkretaus konsultanto, galite iš anksto rezervuoti konsultacijos laiką.';
+  kv.appendChild(regP);
+  kv.appendChild(reg);
+  sritis.appendChild(kv);
+
+  sritis.hidden = false;
+  d.focus({ preventScroll: true });
+  sritis.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function rodytiNepavyko(){
+  const sritis = document.getElementById('rezultatas');
+  sritis.textContent = '';
+  sritis.className = 'nepavyko';
+
+  const a = el('div','atsakymas');
+  const h = el('p','antraste','Pagal Jūsų pateiktus matmenis ši skaičiuoklė negali pakankamai patikimai nustatyti orientacinio dydžio.');
+  h.tabIndex = -1;
+  a.appendChild(h);
+  a.appendChild(el('p','nuo-kur','Tai nereiškia, kad Jums nėra tinkamos liemenėlės.'));
+  a.appendChild(el('p','smulkiau','SILUETA turime itin platų liemenėlių dydžių pasirinkimą: skirtingų gamintojų asortimente rasite kaušelių iki P.'));
+  sritis.appendChild(a);
+
+  const kv = el('div','bloke');
+  kv.appendChild(el('p', null, 'Užsukite į SILUETA parduotuvę: padėsime nustatyti tinkamą dydį ir parinkti modelius.'));
+  const reg = el('a','antrinis-cta','Registruotis konsultacijai');
+  reg.href = REGISTRACIJA;
+  reg.target = '_blank';
+  reg.rel = 'noopener';
+  kv.appendChild(reg);
+  sritis.appendChild(kv);
+
+  sritis.hidden = false;
+  h.focus({ preventScroll: true });
+  sritis.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ---------- forma ---------- */
+
+document.getElementById('forma').addEventListener('submit', function(e){
+  e.preventDefault();
+  valytiKlaidas();
+  document.getElementById('rezultatas').hidden = true;
+
+  const po = skaicius(document.getElementById('po').value);
+  const kr = skaicius(document.getElementById('krutine').value);
+  let blogai = false;
+
+  if (po === null)      { rodytiKlaida('po', 'Įveskite apimtį po krūtine.'); blogai = true; }
+  else if (isNaN(po))   { rodytiKlaida('po', 'Tinka tik skaičius, pavyzdžiui 76 arba 76,5.'); blogai = true; }
+
+  if (kr === null)      { rodytiKlaida('krutine', 'Įveskite krūtinės apimtį.'); blogai = true; }
+  else if (isNaN(kr))   { rodytiKlaida('krutine', 'Tinka tik skaičius, pavyzdžiui 95 arba 95,5.'); blogai = true; }
+
+  if (blogai) return;
+
+  if (kr <= po) {
+    const p = document.getElementById('klaida-bendra');
+    p.textContent = 'Patikrinkite įvestus matmenis. Krūtinės apimtis turi būti didesnė už apimtį po krūtine.';
+    p.hidden = false;
+    return;
+  }
+
+  /* akivaizdžiai nerealios reikšmės */
+  if (po < RIBOS.poMin || po > RIBOS.poMax || kr < RIBOS.krutineMin || kr > RIBOS.krutineMax) {
+    rodytiNepavyko();
+    return;
+  }
+
+  const skirtumas = Math.round((kr - po) * 10) / 10;
+  const kauselis = kauselioDydis(skirtumas);
+  const juosta = juostosDydis(po);
+
+  if (!kauselis || JUOSTOS.indexOf(juosta) === -1) {
+    rodytiNepavyko();
+    return;
+  }
+
+  rodytiRezultata(juosta + kauselis, juosta, kauselis);
+});
+</script>
+</body>
+</html>

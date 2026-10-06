@@ -356,6 +356,43 @@ let K = kalbosKodas();
 let T = TEKSTAI[K];
 let N = NUORODOS[K];
 
+/* ---------- statistika ----------
+   Siunčiame tik anoniminius skaičius: kokie matmenys suvesti ir koks dydis išėjo.
+   Jokio IP, slapuko ar lankytojo identifikatoriaus. Duomenys keliauja į Google
+   formą, o iš jos - į lentelę. Jei siuntimas nepavyksta, skaičiuoklė veikia
+   lygiai taip pat. */
+
+const STATISTIKOS_FORMA = 'https://docs.google.com/forms/d/e/1FAIpQLSd8xI8BsS5OM-wKQLLr4kr3T4_C517q-g2izLsMpagpvZ-VhA/formResponse';
+const STATISTIKOS_LAUKAS = 'entry.196700957';
+
+function siustiStatistika(ivykis, d){
+  if (!STATISTIKOS_FORMA) return;
+  try {
+    d = d || {};
+    const tuscias = (v) => (v === undefined || v === null) ? '' : String(v);
+    const eilute = [
+      ivykis,
+      K,
+      tuscias(d.po),
+      tuscias(d.krutine),
+      tuscias(d.dydis),
+      tuscias(d.juosta),
+      tuscias(d.kauselis),
+      (document.referrer || '').slice(0, 80)
+    ].join('|');
+    const kunas = new URLSearchParams();
+    kunas.append(STATISTIKOS_LAUKAS, eilute);
+    fetch(STATISTIKOS_FORMA, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: kunas,
+      keepalive: true
+    }).catch(function(){});
+  } catch (klaida) {
+    /* statistika niekada neturi sustabdyti skaičiuoklės */
+  }
+}
+
 /* ---------- skaičiavimas ---------- */
 
 function juostosDydis(po){ return Math.round(po / 5) * 5; }
@@ -593,6 +630,7 @@ document.getElementById('forma').addEventListener('submit', function(e){
 
   if (po < RIBOS.poMin || po > RIBOS.poMax || kr < RIBOS.krutineMin || kr > RIBOS.krutineMax) {
     rodytiNepavyko();
+    siustiStatistika('uz ribu', { po: po, krutine: kr });
     return;
   }
 
@@ -600,12 +638,18 @@ document.getElementById('forma').addEventListener('submit', function(e){
   const kauselis = kauselioDydis(skirtumas);
   const juosta = juostosDydis(po);
 
-  if (!kauselis || JUOSTOS.indexOf(juosta) === -1) { rodytiNepavyko(); return; }
+  if (!kauselis || JUOSTOS.indexOf(juosta) === -1) {
+    rodytiNepavyko();
+    siustiStatistika('uz ribu', { po: po, krutine: kr });
+    return;
+  }
 
   rodytiRezultata(juosta + kauselis, juosta, kauselis);
+  siustiStatistika('dydis', { po: po, krutine: kr, dydis: juosta + kauselis, juosta: juosta, kauselis: kauselis });
 });
 
 irasytiTekstus();
+siustiStatistika('atidaryta', {});
 </script>
 </body>
 </html>

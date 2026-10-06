@@ -388,6 +388,18 @@ function skaiciuotiStatistika(){
   return true;
 }
 
+/* Iš kur atėjo: pirmiausia utm_source (naujienlaiškis, reklama),
+   jei jo nėra - puslapis, iš kurio atėjo. */
+function saltinis(){
+  const p = new URLSearchParams(location.search);
+  const u = p.get('utm_source');
+  if (u) {
+    const k = p.get('utm_campaign');
+    return (u + (k ? ' / ' + k : '')).slice(0, 80);
+  }
+  return (document.referrer || '').slice(0, 80);
+}
+
 function siustiStatistika(ivykis, d){
   if (!skaiciuotiStatistika()) return;
   try {
@@ -401,7 +413,7 @@ function siustiStatistika(ivykis, d){
       tuscias(d.dydis),
       tuscias(d.juosta),
       tuscias(d.kauselis),
-      (document.referrer || '').slice(0, 80)
+      saltinis()
     ].join('|');
     const kunas = new URLSearchParams();
     kunas.append(STATISTIKOS_LAUKAS, eilute);

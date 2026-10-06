@@ -83,6 +83,7 @@
 .seseriniai{margin-top:22px;border-left:3px solid var(--pudra);padding:4px 0 4px 16px}
 .seseriniai p{font-size:.96rem;color:var(--tekstas-silpnas)}
 .seseriniai strong{color:var(--tekstas)}
+.seseriniai a{color:var(--tekstas);font-weight:700;text-decoration:underline;text-decoration-color:var(--oranzine);text-underline-offset:3px}
 
 .nepavyko .atsakymas{background:var(--bordo-tamsus)}
 .nepavyko .atsakymas .antraste{font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:12px}
@@ -531,7 +532,14 @@ function rodytiRezultata(dydis, juosta, kauselis){
     p.appendChild(document.createTextNode(T.seseriniaiPradzia));
     [maziau, daugiau].filter(Boolean).forEach((x, i) => {
       if (i > 0) p.appendChild(document.createTextNode(T.seseriniaiArba));
-      p.appendChild(el('strong', null, x));
+      const nuor = filtroNuoroda(x);
+      if (nuor) {
+        const a = el('a', null, x);
+        a.href = nuor; a.target = '_blank'; a.rel = 'noopener';
+        p.appendChild(a);
+      } else {
+        p.appendChild(el('strong', null, x));
+      }
     });
     p.appendChild(document.createTextNode('.'));
     s.appendChild(p);

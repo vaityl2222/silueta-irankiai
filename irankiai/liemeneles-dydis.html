@@ -367,8 +367,7 @@ let T = TEKSTAI[K];
 let N = NUORODOS[K];
 
 /* ---------- statistika ----------
-   Siunčiame tik tada, kai kas nors realiai apskaičiuoja dydį: suvestus matmenis
-   ir gautą rezultatą. Vien puslapio atidarymas niekur nefiksuojamas.
+   Siunčiame tik anoniminius skaičius: kokie matmenys suvesti ir koks dydis išėjo.
    Jokio IP, slapuko ar lankytojo identifikatoriaus. Duomenys keliauja į Google
    formą, o iš jos - į lentelę. Jei siuntimas nepavyksta, skaičiuoklė veikia
    lygiai taip pat. */
@@ -684,6 +683,7 @@ document.getElementById('forma').addEventListener('submit', function(e){
 });
 
 irasytiTekstus();
+siustiStatistika('atidaryta', {});
 </script>
 </body>
 </html>

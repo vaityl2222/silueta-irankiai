@@ -375,8 +375,18 @@ let N = NUORODOS[K];
 const STATISTIKOS_FORMA = 'https://docs.google.com/forms/d/e/1FAIpQLSd8xI8BsS5OM-wKQLLr4kr3T4_C517q-g2izLsMpagpvZ-VhA/formResponse';
 const STATISTIKOS_LAUKAS = 'entry.196700957';
 
+/* Nesiunčiame iš bandymų: lokalaus failo, localhost ar kai adrese yra ?t=1.
+   Taip testavimas neterš tikros statistikos. */
+function skaiciuotiStatistika(){
+  if (!STATISTIKOS_FORMA) return false;
+  if (location.protocol !== 'http:' && location.protocol !== 'https:') return false;
+  if (/^(localhost|127\.|192\.168\.|0\.0\.0\.0)/.test(location.hostname)) return false;
+  if (new URLSearchParams(location.search).get('t') === '1') return false;
+  return true;
+}
+
 function siustiStatistika(ivykis, d){
-  if (!STATISTIKOS_FORMA) return;
+  if (!skaiciuotiStatistika()) return;
   try {
     d = d || {};
     const tuscias = (v) => (v === undefined || v === null) ? '' : String(v);

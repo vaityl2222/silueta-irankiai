@@ -70,6 +70,7 @@
 .bloke{margin-top:26px;padding:20px 22px;border-radius:var(--r);background:var(--smelis);color:#3E2B24}
 .bloke h2{font-size:1.1rem;margin-bottom:8px}
 .bloke p{font-size:.97rem}
+.bloke p a{color:inherit;text-decoration:underline;text-decoration-color:var(--oranzine);text-underline-offset:3px;font-weight:600}
 .bloke .antrinis-cta{
   display:inline-block;margin-top:14px;text-decoration:none;font-weight:700;font-size:.95rem;
   color:var(--ruda);border-bottom:2px solid var(--oranzine);padding-bottom:2px;
@@ -214,12 +215,15 @@ const FILTRAS = {
 const NUORODOS = {
   lt: { kategorija:'https://www.silueta.lt/apatinis-trikotazas/liemeneles',
         registracija:'https://www.silueta.lt/registruokites-individualiai-konsultacijai-2',
+        kontaktai:'https://www.silueta.lt/kontaktai',
         sveta:'https://www.silueta.lt' },
   en: { kategorija:'https://www.silueta.lt/en/underwear/bras',
         registracija:'https://www.silueta.lt/en/register-for-an-individual-bra-fitting-consultation',
+        kontaktai:'https://www.silueta.lt/en/about-us-2/contacts',
         sveta:'https://www.silueta.lt/en' },
   ru: { kategorija:'https://www.silueta.lt/ru/nizhnee-bele/bjustgaltery',
         registracija:'https://www.silueta.lt/ru/zapisyvajtes-na-bra-fitting',
+        kontaktai:'https://www.silueta.lt/ru/o-kompanii-2/kontakty',
         sveta:'https://www.silueta.lt/ru' }
 };
 
@@ -252,6 +256,8 @@ lt: {
   seseriniaiPradzia:'Priklausomai nuo konkretaus modelio gali tikti ir gretimas, vadinamasis seserinis, dydis. Kai kuriuose modeliuose verta pasimatuoti ir ',
   seseriniaiArba:' arba ',
   kvietimasH2:'Nesate tikra dėl dydžio?',
+  kvietimasFraze:'SILUETA parduotuvę Vilniuje',
+  nepavykoFraze:'SILUETA parduotuvę',
   kvietimasP:'Užsukite į SILUETA parduotuvę Vilniuje. Padėsime patikrinti dydį ir parinkti Jūsų krūtinės formai tinkamus modelius. Turime vieną plačiausių dydžių pasirinkimų: skirtingų gamintojų asortimente kaušeliai siekia net P.',
   registracijaP:'Jeigu taupote laiką, norite daugiau individualaus dėmesio arba konkretaus konsultanto, galite iš anksto rezervuoti konsultacijos laiką.',
   registracijaCta:'Registruotis konsultacijai',
@@ -292,6 +298,8 @@ en: {
   seseriniaiPradzia:'Depending on the model, a neighbouring, so-called sister size may also fit. In some models it is worth trying ',
   seseriniaiArba:' or ',
   kvietimasH2:'Not sure about the size?',
+  kvietimasFraze:'SILUETA store in Vilnius',
+  nepavykoFraze:'SILUETA store',
   kvietimasP:'Visit the SILUETA store in Vilnius. We will help you check the size and choose models that suit your breast shape. We carry one of the widest size ranges available: across brands, cups go up to P.',
   registracijaP:'If you want to save time, have more individual attention or a particular consultant, you can book a time in advance.',
   registracijaCta:'Book a fitting',
@@ -332,6 +340,8 @@ ru: {
   seseriniaiPradzia:'В зависимости от модели может подойти и соседний, так называемый сестринский размер. В некоторых моделях стоит примерить также ',
   seseriniaiArba:' или ',
   kvietimasH2:'Не уверены в размере?',
+  kvietimasFraze:'магазин SILUETA в Вильнюсе',
+  nepavykoFraze:'магазин SILUETA',
   kvietimasP:'Загляните в магазин SILUETA в Вильнюсе. Поможем проверить размер и подобрать модели, подходящие форме вашей груди. У нас один из самых широких выборов размеров: в ассортименте разных производителей чашки доходят до P.',
   registracijaP:'Если хотите сэкономить время, получить больше внимания или попасть к конкретному консультанту, можно записаться заранее.',
   registracijaCta:'Записаться на консультацию',
@@ -442,6 +452,20 @@ function valytiKlaidas(){
 
 /* ---------- rezultatas ---------- */
 
+/* Pastraipa, kurios viduje nurodyta frazė tampa nuoroda.
+   Jei frazės tekste nėra, grąžinama paprasta pastraipa - tekstas nedingsta. */
+function pastraipaSuNuoroda(tekstas, fraze, adresas){
+  const p = el('p');
+  const i = (fraze && adresas) ? tekstas.indexOf(fraze) : -1;
+  if (i < 0) { p.textContent = tekstas; return p; }
+  p.appendChild(document.createTextNode(tekstas.slice(0, i)));
+  const a = el('a', null, fraze);
+  a.href = adresas; a.target = '_blank'; a.rel = 'noopener';
+  p.appendChild(a);
+  p.appendChild(document.createTextNode(tekstas.slice(i + fraze.length)));
+  return p;
+}
+
 function el(zyme, klase, tekstas){
   const e = document.createElement(zyme);
   if (klase) e.className = klase;
@@ -491,7 +515,7 @@ function rodytiRezultata(dydis, juosta, kauselis){
 
   const kv = el('div','bloke');
   kv.appendChild(el('h2', null, T.kvietimasH2));
-  kv.appendChild(el('p', null, T.kvietimasP));
+  kv.appendChild(pastraipaSuNuoroda(T.kvietimasP, T.kvietimasFraze, N.kontaktai));
   const regP = el('p', null, T.registracijaP);
   regP.style.marginTop = '12px';
   kv.appendChild(regP);
@@ -527,7 +551,7 @@ function rodytiNepavyko(){
   sritis.appendChild(a);
 
   const kv = el('div','bloke');
-  kv.appendChild(el('p', null, T.nepavykoKvietimas));
+  kv.appendChild(pastraipaSuNuoroda(T.nepavykoKvietimas, T.nepavykoFraze, N.kontaktai));
   const reg = el('a','antrinis-cta', T.registracijaCta);
   reg.href = N.registracija; reg.target = '_blank'; reg.rel = 'noopener';
   kv.appendChild(reg);

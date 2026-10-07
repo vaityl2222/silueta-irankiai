@@ -80,6 +80,7 @@
 }
 @media (prefers-color-scheme:dark){.bloke{color:var(--tekstas)}.bloke .antrinis-cta{color:var(--oranzine)}}
 
+.retas{margin-top:14px;padding:12px 14px;border-left:3px solid var(--oranzine);background:rgba(247,148,29,.08);font-size:.93rem;line-height:1.55}
 .seseriniai{margin-top:22px;border-left:3px solid var(--pudra);padding:4px 0 4px 16px}
 .seseriniai p{font-size:.96rem;color:var(--tekstas-silpnas)}
 .seseriniai strong{color:var(--tekstas)}
@@ -171,8 +172,8 @@
 /* --- EU kaušelių skalė. Riba priklauso DIDESNIAM kaušeliui:
        17,5 -> D, 19,5 -> E. Tai reiškia intervalą [nuo, iki). --- */
 const KAUSELIAI = [
-  { nuo: 10,   iki: 12.5, k: 'AA' },
-  { nuo: 12.5, iki: 13.5, k: 'A'  },
+  { nuo: 10,   iki: 12,   k: 'AA' },
+  { nuo: 12,   iki: 13.5, k: 'A'  },
   { nuo: 13.5, iki: 15.5, k: 'B'  },
   { nuo: 15.5, iki: 17.5, k: 'C'  },
   { nuo: 17.5, iki: 19.5, k: 'D'  },
@@ -254,6 +255,7 @@ lt: {
   klaidaBendra:'Patikrinkite įvestus matmenis. Krūtinės apimtis turi būti didesnė už apimtį po krūtine.',
   rezAntraste:'Pagal Jūsų pateiktus matmenis orientacinis liemenėlės dydis',
   rezNuoKur:'Tai dydis, nuo kurio rekomenduojame pradėti matavimąsi.',
+  retasDydis:'<strong>Toks dydis pasitaiko retai.</strong> Jei rezultatas nustebino, pasitikrinkite matavimą: matuotis reikia be jokių viršutinių drabužių, o juostą per krūtinę vesti per patį plačiausią tašką.',
   rezSmulkiau:'Skirtingų gamintojų ir modelių dydžiai gali šiek tiek skirtis. Be to, tinkamas dydis dar nereiškia, kad tiks kiekviena to dydžio liemenėlė: labai svarbi ir kaušelio forma, jo gylis, lankelių plotis bei visa liemenėlės konstrukcija.',
   ctaPrekes:function(d){ return 'Peržiūrėti ' + d + ' dydžio liemenėles'; },
   nerastaDydzio:'Šiuo metu internetinėje parduotuvėje šio dydžio pasirinkimas gali būti ribotas. Užsukite į SILUETA parduotuvę: padėsime patikrinti dydį ir galimus modelius.',
@@ -296,6 +298,7 @@ en: {
   klaidaBendra:'Please check your measurements. The bust measurement must be larger than the underbust measurement.',
   rezAntraste:'Based on your measurements, the approximate bra size is',
   rezNuoKur:'This is the size we recommend starting your fitting from.',
+  retasDydis:'<strong>This size is uncommon.</strong> If the result surprised you, check your measurements: measure without any top clothing and run the tape across the fullest part of the bust.',
   rezSmulkiau:'Sizes vary between brands and between models. A size that is right on paper does not mean every bra in that size will fit: cup shape and depth, wire width and the whole construction matter just as much.',
   ctaPrekes:function(d){ return 'See bras in size ' + d; },
   nerastaDydzio:'The choice in this size may be limited in our online shop right now. Visit the SILUETA store and we will help you check the size and find suitable models.',
@@ -338,6 +341,7 @@ ru: {
   klaidaBendra:'Проверьте введённые измерения. Обхват груди должен быть больше обхвата под грудью.',
   rezAntraste:'По вашим измерениям ориентировочный размер бюстгальтера',
   rezNuoKur:'Это размер, с которого рекомендуем начать примерку.',
+  retasDydis:'<strong>Такой размер встречается редко.</strong> Если результат удивил, проверьте измерения: мерить нужно без верхней одежды, а ленту вести по самой выступающей точке груди.',
   rezSmulkiau:'Размеры у разных производителей и моделей могут немного отличаться. К тому же подходящий размер ещё не значит, что подойдёт любой бюстгальтер этого размера: важны форма и глубина чашки, ширина косточек и вся конструкция.',
   ctaPrekes:function(d){ return 'Посмотреть бюстгальтеры размера ' + d; },
   nerastaDydzio:'Сейчас выбор в этом размере в интернет-магазине может быть ограничен. Загляните в магазин SILUETA: поможем проверить размер и подобрать модели.',
@@ -511,6 +515,12 @@ function rodytiRezultata(dydis, juosta, kauselis){
   a.appendChild(d);
   a.appendChild(el('p','nuo-kur', T.rezNuoKur));
   a.appendChild(el('p','smulkiau', T.rezSmulkiau));
+  /* AA ir A parduodami retai - dazniausiai tai matavimo netikslumas */
+  if (kauselis === 'AA' || kauselis === 'A') {
+    const r = el('p','retas');
+    r.innerHTML = T.retasDydis;
+    a.appendChild(r);
+  }
   sritis.appendChild(a);
 
   const nuoroda = filtroNuoroda(dydis);

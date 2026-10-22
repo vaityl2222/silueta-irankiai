@@ -397,7 +397,8 @@ function suZymemis(kelias){
 /* ---------- statistika ----------
    Tas pats kelias kaip skaičiuoklėje: anoniminė eilutė į Google formą, iš jos -
    į lentelę „SKAIČIUOKLĖS STATISTIKA (veikianti)“. Tie patys 8 laukai:
-   įvykis | kalba | teisingi | klaidingų klausimų numeriai | procentai | | | iš kur atėjo
+   įvykis | kalba | teisingi | klaidingų klausimų numeriai | procentai | pasirinkti klaidingi variantai | | iš kur atėjo
+   Variantas užrašomas klausimo nr. ir raide pagal eilę KLAUSIMAI sąraše: „11a“ = 11 klausimo pirmas variantas.
    Klausimų numeriai - pagal eilę KLAUSIMAI sąraše (1-15), ne pagal rodymo tvarką.
    Jokių asmens duomenų. Nesiunčiama iš localhost ir kai adrese yra ?t=1. */
 
@@ -427,7 +428,7 @@ function siustiStatistika(ivykis, d){
     d = d || {};
     const tuscias = (v) => (v === undefined || v === null) ? '' : String(v);
     const eilute = [ivykis, 'lt', tuscias(d.teisingi), tuscias(d.klaidingi),
-                    tuscias(d.procentai), '', '', saltinis()].join('|');
+                    tuscias(d.procentai), tuscias(d.variantai), '', saltinis()].join('|');
     const kunas = new URLSearchParams();
     kunas.append(STATISTIKOS_LAUKAS, eilute);
     fetch(STATISTIKOS_FORMA, { method: 'POST', mode: 'no-cors', body: kunas, keepalive: true })
@@ -450,10 +451,11 @@ let tvarka = [];
 let nr = 0;
 let teisingi = 0;
 let klaidingi = [];
+let variantai = [];
 
 function pradeti(){
   tvarka = sumaisyti(KLAUSIMAI.map((_, i) => i));
-  nr = 0; teisingi = 0; klaidingi = [];
+  nr = 0; teisingi = 0; klaidingi = []; variantai = [];
   siustiStatistika('testas pradetas');
   rodytiEkrana('ekranas-klausimas');
   rodytiKlausima();
@@ -484,6 +486,7 @@ function rodytiKlausima(){
     const b = el('button','variantas', v.a);
     b.type = 'button';
     b.dataset.teisingas = v.t ? '1' : '';
+    b.dataset.raide = 'abc'[k.v.indexOf(v)];
     b.addEventListener('click', () => atsakyti(b));
     vs.appendChild(b);
   });
@@ -498,7 +501,10 @@ function atsakyti(pasirinktas){
   const k = KLAUSIMAI[tvarka[nr]];
   const gerai = pasirinktas.dataset.teisingas === '1';
   if (gerai) teisingi++;
-  else klaidingi.push(tvarka[nr] + 1);
+  else {
+    klaidingi.push(tvarka[nr] + 1);
+    variantai.push({ nr: tvarka[nr] + 1, r: pasirinktas.dataset.raide });
+  }
 
   document.querySelectorAll('.variantas').forEach(b => {
     b.disabled = true;
@@ -540,6 +546,7 @@ function rodytiRezultata(){
   siustiStatistika('testas baigtas', {
     teisingi: teisingi,
     klaidingi: klaidingi.sort((a, b) => a - b).join(' '),
+    variantai: variantai.sort((a, b) => a.nr - b.nr).map(x => x.nr + x.r).join(' '),
     procentai: teisingi
   });
   const s = document.getElementById('ekranas-rezultatas');

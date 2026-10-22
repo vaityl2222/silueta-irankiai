@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiek iš tiesų žinote apie apatinį trikotažą? | Silueta</title>
+<meta name="description" content="15 klausimų apie liemenėles, apatinį trikotažą ir jų priežiūrą. Už kiekvieną teisingą atsakymą – 1 % nuolaidos.">
+<meta name="robots" content="noindex, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap&subset=latin-ext" rel="stylesheet">
+<link rel="icon" href="../vizualai/silueta-logo-spalvotas-web.png">
+<link rel="stylesheet" href="../stilius.css">
+<style>
+/* --- testo sluoksnis, remiasi stilius.css tokenais --- */
+.darbas{max-width:960px;margin:0 auto;padding:30px 20px 64px}
+[hidden]{display:none !important}
+
+.mygtukas{
+  font:inherit;font-weight:700;font-size:1.02rem;cursor:pointer;border:0;border-radius:var(--r);
+  padding:15px 30px;background:var(--oranzine);color:var(--ant-akcento);
+  transition:filter .15s,transform .1s;
+}
+.mygtukas:hover{filter:brightness(1.06)}
+.mygtukas:active{transform:translateY(1px)}
+.mygtukas.antrinis{background:transparent;border:1.5px solid var(--konturas);color:var(--tekstas);font-weight:500}
+
+/* --- pradžia --- */
+.pradzia{max-width:620px}
+.pradzia h1{font-size:clamp(1.75rem,4.6vw,2.6rem);margin-bottom:14px}
+.pradzia .paantraste{font-size:1.2rem;font-weight:700;color:var(--terakota);margin-bottom:14px}
+.pradzia p{color:var(--tekstas-silpnas)}
+.pradzia .mygtukas{margin-top:14px}
+
+/* --- klausimas --- */
+.eiga{display:flex;align-items:center;gap:14px;margin-bottom:22px;font-size:.92rem;color:var(--tekstas-silpnas)}
+.eiga .juosta{flex:1;height:6px;border-radius:3px;background:var(--konturas);overflow:hidden}
+.eiga .juosta span{display:block;height:100%;background:var(--oranzine);transition:width .3s}
+
+.klausimas{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px;align-items:start}
+.iliustracija{
+  aspect-ratio:1/1;border-radius:var(--r);overflow:hidden;background:var(--smelis);
+  display:flex;align-items:center;justify-content:center;color:var(--tekstas-silpnas);
+  font-size:.95rem;text-align:center;padding:20px;
+}
+.iliustracija img{width:100%;height:100%;object-fit:cover}
+.klausimas h2:focus{outline:none}
+.klausimas h2{font-size:clamp(1.3rem,3vw,1.75rem);line-height:1.2;margin-bottom:20px}
+
+.variantai{display:flex;flex-direction:column;gap:10px}
+.variantas{
+  font:inherit;text-align:left;cursor:pointer;padding:14px 16px;border-radius:var(--r);
+  border:1.5px solid var(--konturas);background:var(--pavirsius);color:var(--tekstas);
+  transition:border-color .15s,background .15s;
+}
+.variantas:hover:not(:disabled){border-color:var(--oranzine)}
+.variantas:disabled{cursor:default}
+.variantas.teisingas{border-color:#2F7D4A;background:rgba(47,125,74,.10)}
+.variantas.neteisingas{border-color:#9C2415;background:rgba(156,36,21,.08)}
+.variantas.pritemdytas{opacity:.55}
+
+.paaiskinimas{margin-top:20px;padding:20px 22px;border-radius:var(--r);background:var(--smelis);color:#3E2B24}
+.paaiskinimas .verdiktas{font-weight:900;font-size:1.1rem;margin-bottom:8px}
+.paaiskinimas .verdiktas.gerai{color:#2F7D4A}
+.paaiskinimas .verdiktas.blogai{color:#9C2415}
+.paaiskinimas p{font-size:.97rem}
+.paaiskinimas a{
+  display:inline-block;margin-top:4px;text-decoration:none;font-weight:700;font-size:.95rem;
+  color:var(--ruda);border-bottom:2px solid var(--oranzine);padding-bottom:2px;
+}
+.paaiskinimas + .mygtukas{margin-top:18px}
+@media (prefers-color-scheme:dark){
+  .paaiskinimas{color:var(--tekstas)}
+  .paaiskinimas a{color:var(--oranzine)}
+  .paaiskinimas .verdiktas.gerai{color:#7FC796}
+  .paaiskinimas .verdiktas.blogai{color:#F3907E}
+}
+
+/* --- rezultatas --- */
+.rezultatas{max-width:620px}
+.atsakymas{background:var(--ruda);color:#F3E7DC;border-radius:var(--r);padding:28px 26px}
+.atsakymas .antraste{font-size:1.02rem;font-weight:300;color:var(--siltas-smelis);margin-bottom:10px}
+.atsakymas .procentai{font-size:clamp(3rem,13vw,4.6rem);font-weight:900;letter-spacing:-.03em;line-height:.95;color:var(--oranzine);margin:0}
+.atsakymas .kodas-eilute{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px}
+.atsakymas .kodas{
+  font-size:1.5rem;font-weight:900;letter-spacing:.06em;color:#fff;
+  border:2px dashed var(--oranzine);border-radius:var(--r);padding:8px 16px;
+}
+.atsakymas .kopijuoti{padding:11px 18px;font-size:.95rem}
+.atsakymas .smulkiau{margin-top:16px;font-size:.96rem;color:#E2D3C6}
+.pagrindinis-cta{
+  display:inline-block;margin-top:20px;background:var(--oranzine);color:var(--ant-akcento);
+  text-decoration:none;font-weight:700;padding:15px 28px;border-radius:var(--r);
+}
+.pagrindinis-cta:hover{filter:brightness(1.06)}
+
+.pastas{margin-top:26px;padding:20px 22px;border-radius:var(--r);background:var(--smelis);color:#3E2B24}
+.pastas h2{font-size:1.1rem;margin-bottom:6px}
+.pastas p{font-size:.95rem}
+.pastas .eilute{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.pastas input[type=email]{
+  flex:1;min-width:200px;font:inherit;padding:12px 14px;border-radius:var(--r);
+  border:1.5px solid var(--konturas);background:var(--pavirsius);color:var(--tekstas);
+}
+.pastas input[type=email]:focus{outline:none;border-color:var(--oranzine)}
+.pastas .mygtukas{padding:12px 22px}
+.pastas label.varnele{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:.92rem;cursor:pointer}
+.pastas label.varnele input{margin-top:4px}
+.pastas .busena{margin-top:10px;font-size:.92rem;font-weight:500}
+@media (prefers-color-scheme:dark){.pastas{color:var(--tekstas)}}
+
+.atgal{margin-top:24px}
+
+@media (max-width:760px){
+  .klausimas{grid-template-columns:1fr;gap:18px}
+  .iliustracija{aspect-ratio:4/3}
+}
+</style>
+</head>
+<body>
+
+<header class="virsus">
+  <div class="vidus">
+    <a href="../index.html" aria-label="Silueta"><img src="../vizualai/silueta-logo-baltas-web.png" alt="Silueta"></a>
+    <a href="https://www.silueta.lt">silueta.lt</a>
+  </div>
+</header>
+
+<main class="darbas">
+
+  <!-- 1. Pradžia -->
+  <section class="pradzia" id="ekranas-pradzia">
+    <h1>Kiek iš tiesų žinote apie apatinį trikotažą?</h1>
+    <p class="paantraste">Patikrinkite savo žinias ir laimėkite iki 15 % nuolaidą!</p>
+    <p>Ar tikrai žinote, kaip išsirinkti tinkamą liemenėlę, prižiūrėti apatinį trikotažą ir kokios mažos gudrybės gali praversti kasdien?</p>
+    <p>Atsakykite į 15 klausimų. Už kiekvieną teisingą atsakymą gausite 1 % nuolaidos apsipirkimui SILUETA parduotuvėje arba internetu.</p>
+    <p>Ir net jei suklysite – po kiekvieno klausimo sužinosite ką nors naudingo!</p>
+    <button class="mygtukas" type="button" id="pradeti">Pradėti testą</button>
+  </section>
+
+  <!-- 2. Klausimas -->
+  <section id="ekranas-klausimas" hidden>
+    <div class="eiga">
+      <span id="eiga-tekstas"></span>
+      <div class="juosta"><span id="eiga-juosta"></span></div>
+    </div>
+    <div class="klausimas">
+      <div class="iliustracija" id="iliustracija"></div>
+      <div>
+        <h2 id="klausimo-tekstas" tabindex="-1"></h2>
+        <div class="variantai" id="variantai"></div>
+        <div class="paaiskinimas" id="paaiskinimas" hidden aria-live="polite"></div>
+        <button class="mygtukas" type="button" id="toliau" hidden></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Rezultatas -->
+  <section class="rezultatas" id="ekranas-rezultatas" hidden aria-live="polite"></section>
+
+</main>
+
+<footer class="poraste">
+  <div class="vidus">
+    <img src="../vizualai/silueta-logo-baltas-web.png" alt="Silueta">
+    <div>
+      <a href="https://www.silueta.lt">silueta.lt</a>
+      <small>Apatinis trikotažas, maudymosi kostiumėliai ir profesionalus dydžio parinkimas</small>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================================
+   Testas „Kiek iš tiesų žinote apie apatinį trikotažą?“ (JUODRAŠTIS)
+   15 klausimų, 3 variantai. Klausimai ir variantai kaskart sumaišomi.
+   Nuolaida = teisingų atsakymų skaičius %. Kodas rodomas ekrane,
+   el. paštu siunčiamas tik pačiai paprašius.
+   ========================================================================= */
+
+const SVETAINE = 'https://www.silueta.lt';
+
+/* Kodai kiekvienam rezultatui. Daugkartiniai, galioja iki 2026-11-15
+   visoms prekėms, taip pat ir akcijinėms. EviShop: Rinkodara -> Nuolaidų kuponai. */
+const KODAI = {
+  1:'S1ILUETAMD', 2:'SILUE2TAPP', 3:'SIL3UETAGP', 4:'SIL4UETATA', 5:'SIL5UETAAF',
+  6:'SILUET6AKR', 7:'SILU7ETAGR', 8:'SILUE8TATZ', 9:'S9ILUETAED', 10:'SILUET10AEJ',
+  11:'SIL11UETAKG', 12:'SILUET12APK', 13:'SILUE13TAUH', 14:'SILU14ETAGG', 15:'SI15LUETAFZ'
+};
+
+/* Laiškas su kodu: testas siunčia el. paštą ir rezultatą į Google Apps Script
+   tarpininką (projects/15-irankiu-svetaine/omnisend-tarpininkas/Code.gs), kuris
+   su Omnisend API raktu sukuria kontaktą ir įvykį „testas baigtas“.
+   Raktas puslapyje nelaikomas. Kodą tarpininkas parenka pats pagal rezultatą. */
+const TARPININKAS = '';
+
+/* Kol tarpininkas neįjungtas, siunčiama tiesiai per Omnisend snippet'ą.
+   Taip veikia prenumeratorėms; naujų prenumeratų šitaip užrašyti negalima. */
+const OMNISEND_BRAND = '69ef33c7707694b4aa909d15';
+const OMNISEND_IVYKIS = 'testas baigtas';
+(function(){
+  if (TARPININKAS || window.omnisend) return;
+  window.omnisend = [];
+  omnisend.push(['brandID', OMNISEND_BRAND]);
+  const sc = document.createElement('script');
+  sc.async = true;
+  sc.src = 'https://omnisnippet1.com/inshop/launcher-v2.js';
+  document.head.appendChild(sc);
+})();
+
+/* Kiekvienas klausimas: tekstas, variantai (teisingas pažymėtas t:true),
+   paaiškinimas (pastraipos), nebūtina nuoroda, iliustracija (failo kelias). */
+const KLAUSIMAI = [
+{
+  q:'Ar „minimizer“ liemenėlė visada vizualiai sumažina krūtinę?',
+  v:[
+    {a:'Taip, tam ji ir sukurta.'},
+    {a:'Ne, tai tik reklaminis pavadinimas.'},
+    {a:'Nebūtinai – iš profilio krūtinė gali atrodyti mažesnė, o iš priekio net platesnė.', t:true}
+  ],
+  p:['„Minimizer“ liemenėlė krūtinės tūrį paskirsto kitaip: dažniausiai sumažina išsikišimą į priekį, tačiau krūtinė gali labiau pasiskirstyti į šonus. Todėl iš profilio ji gali atrodyti mažesnė, o iš priekio – platesnė.',
+     'Kartais grakštesnį siluetą suteikia ne „minimizer“, o tinkamai pakelianti ir į centrą sutelkianti liemenėlė.'],
+  n:{t:'Plačiau apie „minimizer“ liemenėles', u:'/ar-minimizer-liemenele-visada-mazina-krutine-faktai-mitai-ir-figuros-paslaptys'}
+},
+{
+  q:'Kuri liemenėlė gali būti mažiausiai matoma po balta palaidine?',
+  v:[
+    {a:'Balta – juk palaidinė irgi balta.'},
+    {a:'Raudona – nors skamba netikėtai.', t:true},
+    {a:'Juoda – nes ji sugeria šviesą.'}
+  ],
+  p:['Skamba neįtikėtinai, bet tinkamo atspalvio raudona liemenėlė gali būti beveik nepastebima po balta palaidine!',
+     'Balta liemenėlė po baltais drabužiais dažnai gana aiškiai matoma. O raudona, priklausomai nuo jos atspalvio, odos tono ir palaidinės audinio, gali būti gerokai mažiau pastebima.',
+     'Žinoma, vienas patikimiausių pasirinkimų – liemenėlė, kurios spalva artima jūsų odos tonui.'],
+  n:{t:'Plačiau apie liemenėlės pasirinkimą po šviesiais drabužiais', u:'/kaip-issirinkti-liemenele-vasarai-7-patarimai-is-silueta-patirties'}
+},
+{
+  q:'Ar to paties modelio ir dydžio, bet skirtingų spalvų liemenėlės gali tikti nevienodai?',
+  v:[
+    {a:'Ne, jeigu dydis tas pats, skirtumo būti negali.'},
+    {a:'Taip, tamsesnė liemenėlė kartais gali būti šiek tiek ankštesnė.', t:true},
+    {a:'Taip, bet tik jeigu jos pagamintos skirtingose šalyse.'}
+  ],
+  p:['Netikėta, bet taip tikrai pasitaiko!',
+     'Dėl audinių dažymo ir apdorojimo ypatumų tamsesnių spalvų liemenėlės kartais būna šiek tiek standesnės ar mažiau elastingos nei šviesios.',
+     'Nors skirtumai dažniausiai nedideli, dėvint gerai priglundančią liemenėlę jie gali būti juntami.',
+     'Todėl net jei vieną modelį jau turite ir labai mėgstate, prieš pirkdamos kitos spalvos liemenėlę, jei įmanoma, ją pasimatuokite.']
+},
+{
+  q:'Renkantis naują liemenėlę, ant kurių kabliukų ją geriausia užsegti matuojantis?',
+  v:[
+    {a:'Ant pačių siauriausių – kad kuo tvirčiau laikytų.'},
+    {a:'Ant laisviausių – kad vėliau būtų galima susiaurinti.', t:true},
+    {a:'Ant vidurinių – tai aukso viduriukas.'}
+  ],
+  p:['Nauja liemenėlė paprastai turėtų gerai priglusti užsegta ant laisviausių kabliukų.',
+     'Laikui bėgant elastinė juosta pamažu išsitampo, todėl ją galėsite susegti siauriau ir taip ilgiau išlaikyti tinkamą krūtinės prilaikymą.',
+     'Jeigu naują liemenėlę iš karto reikia segti ant siauriausių kabliukų, tikėtina, kad jos juosta jums per laisva.'],
+  n:{t:'Daugiau patarimų apie liemenėles', u:'/praktiniai-patarimai-apie-liemeneles'}
+},
+{
+  q:'Ar 75D ir 80D liemenėlių kaušeliai vienodo tūrio?',
+  v:[
+    {a:'Taip, juk abiejų raidė D.'},
+    {a:'Ne, 80D kaušelis yra didesnio tūrio.', t:true},
+    {a:'Taip, skiriasi tik juostos ilgis.'}
+  ],
+  p:['Kaušelio raidė turi reikšmę tik kartu su juostos apimtimi.',
+     'Pavyzdžiui, 80D kaušelis yra didesnio tūrio nei 75D. O štai 75D ir 80C yra vadinamieji giminingi dydžiai – jų kaušelių tūris apytikriai vienodas.',
+     'Tačiau tai nereiškia, kad abi liemenėlės vienodai tiks. Skiriasi juostos apimtis, o kartais ir kaušelių konstrukcija.'],
+  n:{t:'Pasitikrinkite savo dydį skaičiuokle', u:'liemeneles-dydis.html', vidine:true}
+},
+{
+  q:'Kiek liemenėlių reikėtų turėti kasdieniam dėvėjimui?',
+  v:[
+    {a:'Vienos geros visiškai pakanka.'},
+    {a:'Būtinai bent penkias.'},
+    {a:'Kiek norisi, bet verta turėti bent dvi ar tris ir jas keisti.', t:true}
+  ],
+  p:['Liemenėlių, kaip ir batų, galima turėti tiek, kiek norisi!',
+     'Tačiau kasdienai rekomenduojama turėti bent 2–3 liemenėles ir jas dėvėti pakaitomis.',
+     'Liemenėlės juostoje esantys elastiniai pluoštai dėvint nuolat tempiasi. Kai leidžiame liemenėlei „pailsėti“, jie turi laiko atgauti formą.',
+     'Taip liemenėlė gali ilgiau išlaikyti elastingumą, tinkamą prigludimą ir gerą krūtinės prilaikymą.']
+},
+{
+  q:'Ar liemenėlės turi galiojimo laiką?',
+  v:[
+    {a:'Kokybiška liemenėlė turi tarnauti bent 10 metų.'},
+    {a:'Galiojimo datos nėra, tačiau reguliariai dėvima liemenėlė ilgainiui praranda elastingumą.', t:true},
+    {a:'Jeigu liemenėlė nesuplyšo, ją galima dėvėti amžinai.'}
+  ],
+  p:['Liemenėlės neturi galiojimo datos, tačiau jos tikrai nėra amžinos!',
+     'Specialistų praktinėse rekomendacijose kartais minimas maždaug 120–180 dėvėjimų orientyras. Tai nėra tikslus ar garantuotas tarnavimo laikas – daug kas priklauso nuo kokybės, dėvėjimo dažnumo ir priežiūros.',
+     'Jeigu turite dvi liemenėles ir jas dėvite pakaitomis, per metus kiekvieną apsivilksite maždaug 180 kartų.',
+     'Todėl verta periodiškai patikrinti, ar juosta vis dar gerai priglunda ir prilaiko krūtinę. Kokybiška liemenėlė gali tarnauti ir gerokai ilgiau.']
+},
+{
+  q:'Kas labiausiai trumpina liemenėlės gyvenimą?',
+  v:[
+    {a:'Skalbimas karštame vandenyje ir džiovinimas džiovyklėje.', t:true},
+    {a:'Laikymas stalčiuje.'},
+    {a:'Tai, kad jos spalva išėjo iš mados. :)'}
+  ],
+  p:['Didžiausi liemenėlės priešai – aukšta temperatūra, stiprus gręžimas ir netinkama priežiūra.',
+     'Karštis gali pažeisti elastinius pluoštus, todėl juosta ir petnešėlės greičiau praranda elastingumą.',
+     'Geriausia liemenėles skalbti rankomis arba švelniu režimu, laikantis gaminio priežiūros etiketės, ir džiovinti natūraliai.',
+     'Taip jos ilgiau išlaikys formą ir gerą prilaikymą.'],
+  n:{t:'SOAK skalbikliai apatiniam trikotažui', u:'/soak-kanada-3'}
+},
+{
+  q:'Kuris audinys geresnis apatiniams ir naktiniams drabužiams – medvilnė ar modalas?',
+  v:[
+    {a:'Medvilnė, nes tai natūralus pluoštas.'},
+    {a:'Modalas, nes jis visais atžvilgiais geresnis.'},
+    {a:'Abu turi privalumų, tačiau modalas dažnai švelnesnis ir maloniau priglunda.', t:true}
+  ],
+  p:['Medvilnė – natūralus, praktiškas ir laidus orui pluoštas. Tačiau modalas, gaminamas iš medienos celiuliozės, paprastai yra dar švelnesnis, glotnesnis, gerai sugeria drėgmę ir gražiai krinta.',
+     'Todėl modalą ypač mėgstame rekomenduoti kasdieniam trikotažui ir naktiniams drabužiams, kai norisi ypatingo komforto.',
+     'Vis dėlto abu audiniai turi savų privalumų, tad svarbiausia pasirinkti pagal poreikius.'],
+  n:{t:'Medvilnė ar modalas? Išsamus palyginimas', u:'/medvilne-ar-modalas-kaip-issirinkti-audini-kuris-geriausiai-tinka-jusu-odai'}
+},
+{
+  q:'Kokia viena svarbiausių taisyklių renkantis figūrą formuojančius apatinius?',
+  v:[
+    {a:'Rinktis kuo mažesnį dydį – tada stipriau formuos.'},
+    {a:'Formuojančio drabužio kraštas neturėtų baigtis ties vieta, kurią norime formuoti.', t:true},
+    {a:'Visada rinktis tik stipriausio formavimo apatinius.'}
+  ],
+  p:['Norite glotnesnės pilvo linijos? Tuomet verta rinktis aukšto liemens kelnaites arba bodį.',
+     'Norite formuoti klubų ir šlaunų sritį? Dažnai geriau tiks formuojantys šortukai, o ne įprastos kelnaitės.',
+     'Svarbu, kad formuojančio drabužio kraštas nesibaigtų ties ta vieta, kurią norite formuoti, nes jis gali įsirėžti ir sukurti papildomą liniją po drabužiais.'],
+  n:{t:'Kaip išsirinkti figūrą formuojantį trikotažą?', u:'/kaip-issirinkti-figura-formuojanti-trikotaza'}
+},
+{
+  q:'Kokiais vienetais matuojamas kompresinių kojinių suspaudimo stiprumas?',
+  v:[
+    {a:'DEN.'},
+    {a:'mmHg.', t:true},
+    {a:'Procentais.'}
+  ],
+  p:['Kompresinių kojinių suspaudimo stiprumas matuojamas gyvsidabrio stulpelio milimetrais – mmHg.',
+     'O DEN nurodo siūlo linijinį tankį, bet ne tikrąjį kompresijos stiprumą.',
+     'Todėl renkantis kompresines kojines svarbu atkreipti dėmesį į mmHg ir gamintojo nurodytą kompresijos klasę.'],
+  n:{t:'Plačiau apie kompresinių kojinių pasirinkimą', u:'/kaip-issirinkti-kompresines-kojines'}
+},
+{
+  q:'Ar kompresinės kojinės reikalingos tik tada, kai jau turime venų problemų?',
+  v:[
+    {a:'Taip, tik tada, kai jas paskiria gydytojas.'},
+    {a:'Ne, tinkamai parinktos lengvesnės kompresijos kojinės gali būti naudingos ir profilaktiškai.', t:true},
+    {a:'Taip, sveikoms kojoms kompresija niekada nenaudinga.'}
+  ],
+  p:['Kompresinės kojinės gali būti naudingos ne tik sergant venų ligomis.',
+     'Lengvesnė kompresija kai kuriems žmonėms gali padėti sumažinti kojų sunkumą ir tinimą ilgų kelionių metu, dirbant stovimą darbą ar ilgai sėdint.',
+     'Svarbu pasirinkti tinkamą kompresijos stiprumą. Stipresnę terapinę kompresiją reikėtų rinktis pagal gydytojo rekomendaciją, o esant tam tikriems kraujotakos sutrikimams kompresija gali būti netinkama.']
+},
+{
+  q:'Kur gaminami „Rodasoleil“ išmanieji maudymosi kostiumėliai?',
+  v:[
+    {a:'Kinijoje.'},
+    {a:'Lietuvoje.', t:true},
+    {a:'Indijoje.'}
+  ],
+  p:['Taip, „Rodasoleil“ išmanieji maudymosi kostiumėliai gaminami Lietuvoje!',
+     'Jų išskirtinumas – specialus korėtas audinys, praleidžiantis dalį ultravioletinių spindulių, todėl oda gali įdegti ir po kostiumėliu.',
+     'Audinys labai lengvas, greitai džiūsta ir, gamintojo teigimu, priklausomai nuo modelio suteikia apsaugą nuo saulės, prilygstančią maždaug SPF 15–35.',
+     'Tačiau tai nereiškia, kad galima neribotai būti saulėje – UV spinduliuotė vis tiek pasiekia odą.'],
+  n:{t:'25 klausimai apie „Rodasoleil“ išmaniuosius maudymosi kostiumėlius', u:'/rodasoleil-ismanieji-maudymosi-kostiumeliai-25-dazniausiai-uzduodami-klausimai'}
+},
+{
+  q:'Ar norint gauti profesionalią konsultaciją SILUETA parduotuvėje būtina registruotis iš anksto?',
+  v:[
+    {a:'Taip, be registracijos nekonsultuojame.'},
+    {a:'Ne, galima užsukti bet kada parduotuvės darbo metu.', t:true},
+    {a:'Registruotis reikia tik renkantis maudymosi kostiumėlį.'}
+  ],
+  p:['SILUETA parduotuvėje visada laukiame jūsų darbo metu!',
+     'Mūsų profesionalios konsultantės padės išsirinkti tinkamiausią liemenėlę, maudymosi kostiumėlį, formuojančius apatinius ar kitą trikotažą pagal jūsų dydį, figūrą ir individualius poreikius.',
+     'Jeigu norite konkrečios specialistės dėmesio, jums patogaus laiko ir nenorite laukti, jei tuo metu konsultantės užimtos, kviečiame iš anksto registruotis individualiai konsultacijai.',
+     'Konsultacijos nemokamos.'],
+  n:{t:'Registruotis individualiai SILUETA konsultacijai', u:'/registruokites-individualiai-konsultacijai-2'}
+},
+{
+  q:'Kiek skirtingų liemenėlių dydžių galima rasti SILUETA parduotuvėje?',
+  v:[
+    {a:'Apie 30.'},
+    {a:'Apie 60.'},
+    {a:'Daugiau nei 150.', t:true}
+  ],
+  p:['SILUETA asortimente – daugiau nei 150 skirtingų liemenėlių dydžių kombinacijų!',
+     'Tačiau svarbu ne tik dydžių skaičius.',
+     'Net ir populiariausio 75C dydžio turime daugiau nei 80 skirtingų modelių! Jie skiriasi kaušelių forma, konstrukcija, prilaikymu, audiniais ir paskirtimi.',
+     'Todėl mūsų tikslas – padėti išsirinkti ne tiesiog tinkamo dydžio liemenėlę, o tokią, kuri geriausiai tinka konkrečiai moteriai.'],
+  n:{t:'Peržiūrėti SILUETA liemenėlių asortimentą', u:'/apatinis-trikotazas/liemeneles'}
+}
+];
+
+/* Iliustracijos: vizualai/testas/01.jpg ... 15.jpg, numeris = klausimo eilė
+   šiame sąraše. 1200 x 1200 px, telefone apkerpama į 4:3. */
+KLAUSIMAI.forEach((k, i) => {
+  k.img = '../vizualai/testas/' + String(i + 1).padStart(2, '0') + '.jpg';
+});
+
+/* ---------- pagalbinės ---------- */
+
+function el(zyme, klase, tekstas){
+  const e = document.createElement(zyme);
+  if (klase) e.className = klase;
+  if (tekstas != null) e.textContent = tekstas;
+  return e;
+}
+
+function sumaisyti(masyvas){
+  const a = masyvas.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* UTM žymės, kad Google Analytics matytų, jog atėjo iš testo */
+function suZymemis(kelias){
+  const u = new URL(kelias, SVETAINE);
+  u.searchParams.set('utm_source', 'testas');
+  u.searchParams.set('utm_medium', 'zaidimas');
+  u.searchParams.set('utm_campaign', 'apatiniu-testas');
+  return u.toString();
+}
+
+function rodytiEkrana(id){
+  ['ekranas-pradzia','ekranas-klausimas','ekranas-rezultatas'].forEach(x => {
+    document.getElementById(x).hidden = (x !== id);
+  });
+  window.scrollTo(0, 0);
+}
+
+/* ---------- eiga ---------- */
+
+let tvarka = [];
+let nr = 0;
+let teisingi = 0;
+
+function pradeti(){
+  tvarka = sumaisyti(KLAUSIMAI.map((_, i) => i));
+  nr = 0; teisingi = 0;
+  rodytiEkrana('ekranas-klausimas');
+  rodytiKlausima();
+}
+
+function rodytiKlausima(){
+  const k = KLAUSIMAI[tvarka[nr]];
+  const viso = KLAUSIMAI.length;
+
+  document.getElementById('eiga-tekstas').textContent = (nr + 1) + ' iš ' + viso;
+  document.getElementById('eiga-juosta').style.width = (nr / viso * 100) + '%';
+
+  const il = document.getElementById('iliustracija');
+  il.textContent = '';
+  if (k.img) {
+    const img = el('img'); img.src = k.img; img.alt = '';
+    il.appendChild(img);
+  } else {
+    il.textContent = 'Iliustracija ' + (tvarka[nr] + 1) + ' klausimui';
+  }
+
+  const h = document.getElementById('klausimo-tekstas');
+  h.textContent = k.q;
+
+  const vs = document.getElementById('variantai');
+  vs.textContent = '';
+  sumaisyti(k.v).forEach(v => {
+    const b = el('button','variantas', v.a);
+    b.type = 'button';
+    b.dataset.teisingas = v.t ? '1' : '';
+    b.addEventListener('click', () => atsakyti(b));
+    vs.appendChild(b);
+  });
+
+  document.getElementById('paaiskinimas').hidden = true;
+  document.getElementById('toliau').hidden = true;
+  h.focus({ preventScroll: true });
+  window.scrollTo(0, 0);
+}
+
+function atsakyti(pasirinktas){
+  const k = KLAUSIMAI[tvarka[nr]];
+  const gerai = pasirinktas.dataset.teisingas === '1';
+  if (gerai) teisingi++;
+
+  document.querySelectorAll('.variantas').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.teisingas === '1') b.classList.add('teisingas');
+    else if (b === pasirinktas) b.classList.add('neteisingas');
+    else b.classList.add('pritemdytas');
+  });
+
+  const p = document.getElementById('paaiskinimas');
+  p.textContent = '';
+  p.appendChild(el('p', 'verdiktas ' + (gerai ? 'gerai' : 'blogai'), gerai ? 'Teisingai!' : 'Ne visai.'));
+  k.p.forEach(t => p.appendChild(el('p', null, t)));
+  if (k.n) {
+    const a = el('a', null, k.n.t);
+    a.href = k.n.vidine ? k.n.u : suZymemis(k.n.u);
+    a.target = '_blank'; a.rel = 'noopener';
+    p.appendChild(a);
+  }
+  p.hidden = false;
+
+  const t = document.getElementById('toliau');
+  t.textContent = (nr + 1 < KLAUSIMAI.length) ? 'Kitas klausimas' : 'Žiūrėti rezultatą';
+  t.hidden = false;
+
+  /* telefone paaiškinimas atsiranda žemiau ekrano */
+  const y = p.getBoundingClientRect().top + window.scrollY - 80;
+  if (p.getBoundingClientRect().top > window.innerHeight * 0.6) window.scrollTo(0, y);
+}
+
+function toliau(){
+  nr++;
+  if (nr < KLAUSIMAI.length) rodytiKlausima();
+  else rodytiRezultata();
+}
+
+/* ---------- rezultatas ---------- */
+
+function rodytiRezultata(){
+  const s = document.getElementById('ekranas-rezultatas');
+  s.textContent = '';
+  const viso = KLAUSIMAI.length;
+
+  const a = el('div','atsakymas');
+  a.appendChild(el('p','antraste', 'Teisingai atsakėte į ' + teisingi + ' iš ' + viso + ' klausimų.'));
+
+  if (teisingi === 0) {
+    a.appendChild(el('p','smulkiau', 'Šįkart nė vieno teisingo atsakymo, bet dabar žinote daugiau nei prieš testą. Pabandykite dar kartą!'));
+    s.appendChild(a);
+  } else {
+    const pr = el('p','procentai', teisingi + ' %');
+    pr.tabIndex = -1;
+    a.appendChild(pr);
+    a.appendChild(el('p','smulkiau', 'Tokio dydžio nuolaida laukia Jūsų silueta.lt: įveskite kodą krepšelyje. SILUETA parduotuvėje Vilniuje parodykite kodą telefone: ekrano nuotrauką arba laišką.'));
+
+    const kodas = KODAI[teisingi];
+    const eil = el('div','kodas-eilute');
+    eil.appendChild(el('span','kodas', kodas));
+    const kop = el('button','mygtukas kopijuoti', 'Kopijuoti');
+    kop.type = 'button';
+    kop.addEventListener('click', () => {
+      const pavyko = () => { kop.textContent = 'Nukopijuota'; setTimeout(() => kop.textContent = 'Kopijuoti', 2000); };
+      if (navigator.clipboard) navigator.clipboard.writeText(kodas).then(pavyko, () => {});
+    });
+    eil.appendChild(kop);
+    a.appendChild(eil);
+    a.appendChild(el('p','smulkiau', 'Kodas galioja iki 2026 m. lapkričio 15 d. visoms prekėms, taip pat ir akcijinėms.'));
+    s.appendChild(a);
+
+    const cta = el('a','pagrindinis-cta', 'Į silueta.lt');
+    cta.href = suZymemis('/'); cta.target = '_blank'; cta.rel = 'noopener';
+    s.appendChild(cta);
+
+    s.appendChild(pastoBlokas(kodas));
+  }
+
+  const m = el('div','atgal');
+  const b = el('button','mygtukas antrinis', 'Spręsti dar kartą');
+  b.type = 'button';
+  b.addEventListener('click', pradeti);
+  m.appendChild(b);
+  s.appendChild(m);
+
+  rodytiEkrana('ekranas-rezultatas');
+}
+
+function laukti(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+/* Omnisend įvykį priima tik atpažintam kontaktui, o identifyContact neturi
+   atsakymo, kurio būtų galima palaukti. Todėl atpažįstame, palaukiame 2,5 s
+   ir tik tada siunčiame įvykį. Be pauzės įvykis tyliai dingsta. */
+async function siustiPerSnippet(pastas, noriNaujienlaiskiu){
+  try {
+    for (let i = 0; i < 40 && typeof omnisend.identifyContact !== 'function'; i++) await laukti(200);
+    if (typeof omnisend.identifyContact !== 'function') return false;
+    omnisend.identifyContact({ email: pastas });
+    await laukti(2500);
+    omnisend.push(['track', OMNISEND_IVYKIS, {
+      origin: 'api',
+      properties: {
+        teisingi: teisingi,
+        procentai: teisingi,
+        kodas: KODAI[teisingi],
+        galioja_iki: '2026-11-15',
+        nori_naujienlaiskiu: noriNaujienlaiskiu ? 'taip' : 'ne'
+      }
+    }]);
+    return true;
+  } catch (klaida) {
+    return false;
+  }
+}
+
+async function siustiKoda(pastas, noriNaujienlaiskiu){
+  if (!TARPININKAS) return siustiPerSnippet(pastas, noriNaujienlaiskiu);
+  try {
+    /* text/plain, kad naršyklė nedarytų CORS išankstinės užklausos,
+       kurios Apps Script nepalaiko */
+    const r = await fetch(TARPININKAS, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ email: pastas, teisingi: teisingi, nori: noriNaujienlaiskiu })
+    });
+    const d = await r.json();
+    return d.ok === true;
+  } catch (klaida) {
+    return false;
+  }
+}
+
+function pastoBlokas(kodas){
+  const d = el('div','pastas');
+  d.appendChild(el('h2', null, 'Norite, kad kodą atsiųstume el. paštu?'));
+  d.appendChild(el('p', null, 'Neprivaloma: kodą jau matote ekrane.'));
+
+  const f = el('form');
+  f.noValidate = true;
+  const eil = el('div','eilute');
+  const inp = el('input'); inp.type = 'email'; inp.placeholder = 'Jūsų el. paštas'; inp.autocomplete = 'email';
+  inp.setAttribute('aria-label', 'El. paštas');
+  const btn = el('button','mygtukas', 'Atsiųsti');
+  btn.type = 'submit';
+  eil.appendChild(inp); eil.appendChild(btn);
+  f.appendChild(eil);
+
+  const lab = el('label','varnele');
+  const cb = el('input'); cb.type = 'checkbox';
+  lab.appendChild(cb);
+  lab.appendChild(el('span', null, 'Noriu gauti SILUETA naujienlaiškius'));
+  f.appendChild(lab);
+
+  const bus = el('p','busena');
+  f.appendChild(bus);
+
+  f.addEventListener('submit', e => {
+    e.preventDefault();
+    const pastas = inp.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pastas)) { bus.textContent = 'Patikrinkite el. pašto adresą.'; return; }
+    btn.disabled = true;
+    bus.textContent = 'Siunčiame…';
+    siustiKoda(pastas, cb.checked).then(pavyko => {
+      if (pavyko) {
+        bus.textContent = 'Išsiuntėme. Laiškas turėtų ateiti per kelias minutes.';
+      } else {
+        bus.textContent = 'Nepavyko išsiųsti. Kodą nusikopijuokite iš ekrano.';
+        btn.disabled = false;
+      }
+    });
+  });
+
+  d.appendChild(f);
+  return d;
+}
+
+/* ---------- paleidimas ---------- */
+
+document.getElementById('pradeti').addEventListener('click', pradeti);
+document.getElementById('toliau').addEventListener('click', toliau);
+</script>
+</body>
+</html>

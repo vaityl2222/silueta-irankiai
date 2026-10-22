@@ -31,6 +31,8 @@
 .pradzia .paantraste{font-size:1.2rem;font-weight:700;color:var(--terakota);margin-bottom:14px}
 .pradzia p{color:var(--tekstas-silpnas)}
 .pradzia .mygtukas{margin-top:14px}
+.pradzia .adresas{margin-top:18px;font-size:.95rem}
+.pradzia .adresas a{color:var(--terakota);font-weight:700}
 
 /* --- klausimas --- */
 .eiga{display:flex;align-items:center;gap:14px;margin-bottom:22px;font-size:.92rem;color:var(--tekstas-silpnas)}
@@ -94,21 +96,6 @@
 }
 .pagrindinis-cta:hover{filter:brightness(1.06)}
 
-.pastas{margin-top:26px;padding:20px 22px;border-radius:var(--r);background:var(--smelis);color:#3E2B24}
-.pastas h2{font-size:1.1rem;margin-bottom:6px}
-.pastas p{font-size:.95rem}
-.pastas .eilute{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-.pastas input[type=email]{
-  flex:1;min-width:200px;font:inherit;padding:12px 14px;border-radius:var(--r);
-  border:1.5px solid var(--konturas);background:var(--pavirsius);color:var(--tekstas);
-}
-.pastas input[type=email]:focus{outline:none;border-color:var(--oranzine)}
-.pastas .mygtukas{padding:12px 22px}
-.pastas label.varnele{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:.92rem;cursor:pointer}
-.pastas label.varnele input{margin-top:4px}
-.pastas .busena{margin-top:10px;font-size:.92rem;font-weight:500}
-@media (prefers-color-scheme:dark){.pastas{color:var(--tekstas)}}
-
 .atgal{margin-top:24px}
 
 @media (max-width:760px){
@@ -136,6 +123,7 @@
     <p>Atsakykite į 15 klausimų. Už kiekvieną teisingą atsakymą gausite 1 % nuolaidos apsipirkimui SILUETA parduotuvėje arba internetu.</p>
     <p>Ir net jei suklysite – po kiekvieno klausimo sužinosite ką nors naudingo!</p>
     <button class="mygtukas" type="button" id="pradeti">Pradėti testą</button>
+    <p class="adresas">SILUETA parduotuvė: A. Vienuolio g. 12, Vilnius<br><a href="https://www.silueta.lt/?utm_source=testas&amp;utm_medium=zaidimas&amp;utm_campaign=apatiniu-testas" target="_blank" rel="noopener">www.silueta.lt</a></p>
   </section>
 
   <!-- 2. Klausimas -->
@@ -174,8 +162,7 @@
 /* =========================================================================
    Testas „Kiek iš tiesų žinote apie apatinį trikotažą?“ (JUODRAŠTIS)
    15 klausimų, 3 variantai. Klausimai ir variantai kaskart sumaišomi.
-   Nuolaida = teisingų atsakymų skaičius %. Kodas rodomas ekrane,
-   el. paštu siunčiamas tik pačiai paprašius.
+   Nuolaida = teisingų atsakymų skaičius %. Kodas rodomas tik ekrane.
    ========================================================================= */
 
 const SVETAINE = 'https://www.silueta.lt';
@@ -187,26 +174,6 @@ const KODAI = {
   6:'SILUET6AKR', 7:'SILU7ETAGR', 8:'SILUE8TATZ', 9:'S9ILUETAED', 10:'SILUET10AEJ',
   11:'SIL11UETAKG', 12:'SILUET12APK', 13:'SILUE13TAUH', 14:'SILU14ETAGG', 15:'SI15LUETAFZ'
 };
-
-/* Laiškas su kodu: testas siunčia el. paštą ir rezultatą į Google Apps Script
-   tarpininką (projects/15-irankiu-svetaine/omnisend-tarpininkas/Code.gs), kuris
-   su Omnisend API raktu sukuria kontaktą ir įvykį „testas baigtas“.
-   Raktas puslapyje nelaikomas. Kodą tarpininkas parenka pats pagal rezultatą. */
-const TARPININKAS = '';
-
-/* Kol tarpininkas neįjungtas, siunčiama tiesiai per Omnisend snippet'ą.
-   Taip veikia prenumeratorėms; naujų prenumeratų šitaip užrašyti negalima. */
-const OMNISEND_BRAND = '69ef33c7707694b4aa909d15';
-const OMNISEND_IVYKIS = 'testas baigtas';
-(function(){
-  if (TARPININKAS || window.omnisend) return;
-  window.omnisend = [];
-  omnisend.push(['brandID', OMNISEND_BRAND]);
-  const sc = document.createElement('script');
-  sc.async = true;
-  sc.src = 'https://omnisnippet1.com/inshop/launcher-v2.js';
-  document.head.appendChild(sc);
-})();
 
 /* Kiekvienas klausimas: tekstas, variantai (teisingas pažymėtas t:true),
    paaiškinimas (pastraipos), nebūtina nuoroda, iliustracija (failo kelias). */
@@ -255,8 +222,7 @@ const KLAUSIMAI = [
   ],
   p:['Nauja liemenėlė paprastai turėtų gerai priglusti užsegta ant laisviausių kabliukų.',
      'Laikui bėgant elastinė juosta pamažu išsitampo, todėl ją galėsite susegti siauriau ir taip ilgiau išlaikyti tinkamą krūtinės prilaikymą.',
-     'Jeigu naują liemenėlę iš karto reikia segti ant siauriausių kabliukų, tikėtina, kad jos juosta jums per laisva.'],
-  n:{t:'Daugiau patarimų apie liemenėles', u:'/praktiniai-patarimai-apie-liemeneles'}
+     'Jeigu naują liemenėlę iš karto reikia segti ant siauriausių kabliukų, tikėtina, kad jos juosta jums per laisva.']
 },
 {
   q:'Ar 75D ir 80D liemenėlių kaušeliai vienodo tūrio?',
@@ -428,6 +394,49 @@ function suZymemis(kelias){
   return u.toString();
 }
 
+/* ---------- statistika ----------
+   Tas pats kelias kaip skaičiuoklėje: anoniminė eilutė į Google formą, iš jos -
+   į lentelę „SKAIČIUOKLĖS STATISTIKA (veikianti)“. Tie patys 8 laukai:
+   įvykis | kalba | teisingi | klaidingų klausimų numeriai | procentai | | | iš kur atėjo
+   Klausimų numeriai - pagal eilę KLAUSIMAI sąraše (1-15), ne pagal rodymo tvarką.
+   Jokių asmens duomenų. Nesiunčiama iš localhost ir kai adrese yra ?t=1. */
+
+const STATISTIKOS_FORMA = 'https://docs.google.com/forms/d/e/1FAIpQLSd8xI8BsS5OM-wKQLLr4kr3T4_C517q-g2izLsMpagpvZ-VhA/formResponse';
+const STATISTIKOS_LAUKAS = 'entry.196700957';
+
+function skaiciuotiStatistika(){
+  if (location.protocol !== 'http:' && location.protocol !== 'https:') return false;
+  if (/^(localhost|127\.|192\.168\.|0\.0\.0\.0)/.test(location.hostname)) return false;
+  if (new URLSearchParams(location.search).get('t') === '1') return false;
+  return true;
+}
+
+function saltinis(){
+  const p = new URLSearchParams(location.search);
+  const u = p.get('utm_source');
+  if (u) {
+    const k = p.get('utm_campaign');
+    return (u + (k ? ' / ' + k : '')).slice(0, 80);
+  }
+  return (document.referrer || '').slice(0, 80);
+}
+
+function siustiStatistika(ivykis, d){
+  if (!skaiciuotiStatistika()) return;
+  try {
+    d = d || {};
+    const tuscias = (v) => (v === undefined || v === null) ? '' : String(v);
+    const eilute = [ivykis, 'lt', tuscias(d.teisingi), tuscias(d.klaidingi),
+                    tuscias(d.procentai), '', '', saltinis()].join('|');
+    const kunas = new URLSearchParams();
+    kunas.append(STATISTIKOS_LAUKAS, eilute);
+    fetch(STATISTIKOS_FORMA, { method: 'POST', mode: 'no-cors', body: kunas, keepalive: true })
+      .catch(function(){});
+  } catch (klaida) {
+    /* statistika niekada neturi sustabdyti testo */
+  }
+}
+
 function rodytiEkrana(id){
   ['ekranas-pradzia','ekranas-klausimas','ekranas-rezultatas'].forEach(x => {
     document.getElementById(x).hidden = (x !== id);
@@ -440,10 +449,12 @@ function rodytiEkrana(id){
 let tvarka = [];
 let nr = 0;
 let teisingi = 0;
+let klaidingi = [];
 
 function pradeti(){
   tvarka = sumaisyti(KLAUSIMAI.map((_, i) => i));
-  nr = 0; teisingi = 0;
+  nr = 0; teisingi = 0; klaidingi = [];
+  siustiStatistika('testas pradetas');
   rodytiEkrana('ekranas-klausimas');
   rodytiKlausima();
 }
@@ -487,6 +498,7 @@ function atsakyti(pasirinktas){
   const k = KLAUSIMAI[tvarka[nr]];
   const gerai = pasirinktas.dataset.teisingas === '1';
   if (gerai) teisingi++;
+  else klaidingi.push(tvarka[nr] + 1);
 
   document.querySelectorAll('.variantas').forEach(b => {
     b.disabled = true;
@@ -525,6 +537,11 @@ function toliau(){
 /* ---------- rezultatas ---------- */
 
 function rodytiRezultata(){
+  siustiStatistika('testas baigtas', {
+    teisingi: teisingi,
+    klaidingi: klaidingi.sort((a, b) => a - b).join(' '),
+    procentai: teisingi
+  });
   const s = document.getElementById('ekranas-rezultatas');
   s.textContent = '';
   const viso = KLAUSIMAI.length;
@@ -539,7 +556,7 @@ function rodytiRezultata(){
     const pr = el('p','procentai', teisingi + ' %');
     pr.tabIndex = -1;
     a.appendChild(pr);
-    a.appendChild(el('p','smulkiau', 'Tokio dydžio nuolaida laukia Jūsų silueta.lt: įveskite kodą krepšelyje. SILUETA parduotuvėje Vilniuje parodykite kodą telefone: ekrano nuotrauką arba laišką.'));
+    a.appendChild(el('p','smulkiau', 'Tokio dydžio nuolaida laukia Jūsų silueta.lt: įveskite kodą krepšelyje. SILUETA parduotuvėje Vilniuje parodykite kodą telefone (pvz., ekrano nuotrauką).'));
 
     const kodas = KODAI[teisingi];
     const eil = el('div','kodas-eilute');
@@ -558,8 +575,6 @@ function rodytiRezultata(){
     const cta = el('a','pagrindinis-cta', 'Į silueta.lt');
     cta.href = suZymemis('/'); cta.target = '_blank'; cta.rel = 'noopener';
     s.appendChild(cta);
-
-    s.appendChild(pastoBlokas(kodas));
   }
 
   const m = el('div','atgal');
@@ -572,95 +587,9 @@ function rodytiRezultata(){
   rodytiEkrana('ekranas-rezultatas');
 }
 
-function laukti(ms){ return new Promise(r => setTimeout(r, ms)); }
-
-/* Omnisend įvykį priima tik atpažintam kontaktui, o identifyContact neturi
-   atsakymo, kurio būtų galima palaukti. Todėl atpažįstame, palaukiame 2,5 s
-   ir tik tada siunčiame įvykį. Be pauzės įvykis tyliai dingsta. */
-async function siustiPerSnippet(pastas, noriNaujienlaiskiu){
-  try {
-    for (let i = 0; i < 40 && typeof omnisend.identifyContact !== 'function'; i++) await laukti(200);
-    if (typeof omnisend.identifyContact !== 'function') return false;
-    omnisend.identifyContact({ email: pastas });
-    await laukti(2500);
-    omnisend.push(['track', OMNISEND_IVYKIS, {
-      origin: 'api',
-      properties: {
-        teisingi: teisingi,
-        procentai: teisingi,
-        kodas: KODAI[teisingi],
-        galioja_iki: '2026-11-15',
-        nori_naujienlaiskiu: noriNaujienlaiskiu ? 'taip' : 'ne'
-      }
-    }]);
-    return true;
-  } catch (klaida) {
-    return false;
-  }
-}
-
-async function siustiKoda(pastas, noriNaujienlaiskiu){
-  if (!TARPININKAS) return siustiPerSnippet(pastas, noriNaujienlaiskiu);
-  try {
-    /* text/plain, kad naršyklė nedarytų CORS išankstinės užklausos,
-       kurios Apps Script nepalaiko */
-    const r = await fetch(TARPININKAS, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ email: pastas, teisingi: teisingi, nori: noriNaujienlaiskiu })
-    });
-    const d = await r.json();
-    return d.ok === true;
-  } catch (klaida) {
-    return false;
-  }
-}
-
-function pastoBlokas(kodas){
-  const d = el('div','pastas');
-  d.appendChild(el('h2', null, 'Norite, kad kodą atsiųstume el. paštu?'));
-  d.appendChild(el('p', null, 'Neprivaloma: kodą jau matote ekrane.'));
-
-  const f = el('form');
-  f.noValidate = true;
-  const eil = el('div','eilute');
-  const inp = el('input'); inp.type = 'email'; inp.placeholder = 'Jūsų el. paštas'; inp.autocomplete = 'email';
-  inp.setAttribute('aria-label', 'El. paštas');
-  const btn = el('button','mygtukas', 'Atsiųsti');
-  btn.type = 'submit';
-  eil.appendChild(inp); eil.appendChild(btn);
-  f.appendChild(eil);
-
-  const lab = el('label','varnele');
-  const cb = el('input'); cb.type = 'checkbox';
-  lab.appendChild(cb);
-  lab.appendChild(el('span', null, 'Noriu gauti SILUETA naujienlaiškius'));
-  f.appendChild(lab);
-
-  const bus = el('p','busena');
-  f.appendChild(bus);
-
-  f.addEventListener('submit', e => {
-    e.preventDefault();
-    const pastas = inp.value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pastas)) { bus.textContent = 'Patikrinkite el. pašto adresą.'; return; }
-    btn.disabled = true;
-    bus.textContent = 'Siunčiame…';
-    siustiKoda(pastas, cb.checked).then(pavyko => {
-      if (pavyko) {
-        bus.textContent = 'Išsiuntėme. Laiškas turėtų ateiti per kelias minutes.';
-      } else {
-        bus.textContent = 'Nepavyko išsiųsti. Kodą nusikopijuokite iš ekrano.';
-        btn.disabled = false;
-      }
-    });
-  });
-
-  d.appendChild(f);
-  return d;
-}
-
 /* ---------- paleidimas ---------- */
+
+siustiStatistika('testas atidarytas');
 
 document.getElementById('pradeti').addEventListener('click', pradeti);
 document.getElementById('toliau').addEventListener('click', toliau);

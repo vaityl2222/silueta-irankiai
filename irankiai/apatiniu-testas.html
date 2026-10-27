@@ -123,7 +123,7 @@
     <p>Atsakykite į 15 klausimų. Už kiekvieną teisingą atsakymą gausite 1 % nuolaidos apsipirkimui SILUETA parduotuvėje arba internetu.</p>
     <p>Ir net jei suklysite – po kiekvieno klausimo sužinosite ką nors naudingo!</p>
     <button class="mygtukas" type="button" id="pradeti">Pradėti testą</button>
-    <p class="adresas">SILUETA parduotuvė: A. Vienuolio g. 12, Vilnius<br><a href="https://www.silueta.lt/?utm_source=testas&amp;utm_medium=zaidimas&amp;utm_campaign=apatiniu-testas" target="_blank" rel="noopener">www.silueta.lt</a></p>
+    <p class="adresas">SILUETA parduotuvė: A. Vienuolio g. 12, Vilnius<br><a href="https://www.silueta.lt/?utm_source=testas&amp;utm_medium=referral&amp;utm_campaign=apatiniu-testas" target="_blank" rel="noopener">www.silueta.lt</a></p>
   </section>
 
   <!-- 2. Klausimas -->
@@ -389,7 +389,7 @@ function sumaisyti(masyvas){
 function suZymemis(kelias){
   const u = new URL(kelias, SVETAINE);
   u.searchParams.set('utm_source', 'testas');
-  u.searchParams.set('utm_medium', 'zaidimas');
+  u.searchParams.set('utm_medium', 'referral');
   u.searchParams.set('utm_campaign', 'apatiniu-testas');
   return u.toString();
 }

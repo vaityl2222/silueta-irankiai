@@ -385,12 +385,19 @@ function sumaisyti(masyvas){
   return a;
 }
 
-/* UTM žymės, kad Google Analytics matytų, jog atėjo iš testo */
+/* Žymės nuorodoms į silueta.lt. Jei atėjo su žymėmis (naujienlaiškis, reklama) -
+   perduodam jas toliau, kad Google Analytics pirkimą priskirtų tam pačiam šaltiniui;
+   kartu ir Omnisend bei reklamos paspaudimo ID. Jei žymių nėra - pažymim testą. */
 function suZymemis(kelias){
   const u = new URL(kelias, SVETAINE);
-  u.searchParams.set('utm_source', 'testas');
-  u.searchParams.set('utm_medium', 'referral');
-  u.searchParams.set('utm_campaign', 'apatiniu-testas');
+  for (const [raktas, reiksme] of new URLSearchParams(location.search)) {
+    if (/^(utm_|omnisend)/i.test(raktas) || raktas === 'gclid' || raktas === 'fbclid') u.searchParams.set(raktas, reiksme);
+  }
+  if (!u.searchParams.get('utm_source')) {
+    u.searchParams.set('utm_source', 'testas');
+    u.searchParams.set('utm_medium', 'referral');
+    u.searchParams.set('utm_campaign', 'apatiniu-testas');
+  }
   return u.toString();
 }
 
@@ -600,6 +607,7 @@ siustiStatistika('testas atidarytas');
 
 document.getElementById('pradeti').addEventListener('click', pradeti);
 document.getElementById('toliau').addEventListener('click', toliau);
+document.querySelectorAll('a[href^="https://www.silueta.lt"]').forEach(a => { a.href = suZymemis(a.href); });
 </script>
 </body>
 </html>

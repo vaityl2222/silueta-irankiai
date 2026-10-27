@@ -405,6 +405,22 @@ function saltinis(){
   return (document.referrer || '').slice(0, 80);
 }
 
+/* Žymės nuorodoms į silueta.lt. Jei atėjo su žymėmis (naujienlaiškis, reklama) -
+   perduodam jas toliau, kad Google Analytics pirkimą priskirtų tam pačiam šaltiniui;
+   kartu ir Omnisend bei reklamos paspaudimo ID. Jei žymių nėra - pažymim skaičiuoklę. */
+function suZymemis(adresas){
+  const u = new URL(adresas);
+  for (const [raktas, reiksme] of new URLSearchParams(location.search)) {
+    if (/^(utm_|omnisend)/i.test(raktas) || raktas === 'gclid' || raktas === 'fbclid') u.searchParams.set(raktas, reiksme);
+  }
+  if (!u.searchParams.get('utm_source')) {
+    u.searchParams.set('utm_source', 'skaiciuokle');
+    u.searchParams.set('utm_medium', 'referral');
+    u.searchParams.set('utm_campaign', 'liemeneles-dydis');
+  }
+  return u.toString();
+}
+
 function siustiStatistika(ivykis, d){
   if (!skaiciuotiStatistika()) return;
   try {
@@ -455,7 +471,7 @@ function seserinis(juosta, kauselis, kryptis){
 
 function filtroNuoroda(dydis){
   const id = FILTRAS[dydis];
-  return id ? N.kategorija + '?attr%5B158%5D%5B%5D=' + id : null;
+  return id ? suZymemis(N.kategorija + '?attr%5B158%5D%5B%5D=' + id) : null;
 }
 
 /* ---------- įvestis ---------- */
@@ -490,7 +506,7 @@ function pastraipaSuNuoroda(tekstas, fraze, adresas){
   if (i < 0) { p.textContent = tekstas; return p; }
   p.appendChild(document.createTextNode(tekstas.slice(0, i)));
   const a = el('a', null, fraze);
-  a.href = adresas; a.target = '_blank'; a.rel = 'noopener';
+  a.href = suZymemis(adresas); a.target = '_blank'; a.rel = 'noopener';
   p.appendChild(a);
   p.appendChild(document.createTextNode(tekstas.slice(i + fraze.length)));
   return p;
@@ -563,7 +579,7 @@ function rodytiRezultata(dydis, juosta, kauselis){
   regP.style.marginTop = '12px';
   kv.appendChild(regP);
   const reg = el('a','antrinis-cta', T.registracijaCta);
-  reg.href = N.registracija; reg.target = '_blank'; reg.rel = 'noopener';
+  reg.href = suZymemis(N.registracija); reg.target = '_blank'; reg.rel = 'noopener';
   kv.appendChild(reg);
   sritis.appendChild(kv);
 
@@ -596,7 +612,7 @@ function rodytiNepavyko(){
   const kv = el('div','bloke');
   kv.appendChild(pastraipaSuNuoroda(T.nepavykoKvietimas, T.nepavykoFraze, N.kontaktai));
   const reg = el('a','antrinis-cta', T.registracijaCta);
-  reg.href = N.registracija; reg.target = '_blank'; reg.rel = 'noopener';
+  reg.href = suZymemis(N.registracija); reg.target = '_blank'; reg.rel = 'noopener';
   kv.appendChild(reg);
   sritis.appendChild(kv);
 
@@ -648,6 +664,7 @@ function irasytiTekstus(){
   isl.appendChild(document.createTextNode(T.islyga));
 
   document.getElementById('nuoroda-silueta').href = N.sveta;
+  document.querySelectorAll('a[href^="https://www.silueta.lt"]').forEach(a => { a.href = suZymemis(a.href); });
 
   /* kalbų mygtukai */
   const nav = document.getElementById('kalbos');

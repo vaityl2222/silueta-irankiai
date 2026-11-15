@@ -96,6 +96,21 @@
 }
 .pagrindinis-cta:hover{filter:brightness(1.06)}
 
+.atsakymas .vertinimas{font-size:1.25rem;font-weight:700;color:#fff;margin:6px 0 0}
+.grizti{margin-top:22px;padding:20px 22px;border-radius:var(--r);background:var(--smelis);color:#3E2B24}
+.grizti h2{font-size:1.05rem;font-weight:900;margin:0 0 10px}
+.grizti ul{margin:0;padding-left:20px}
+.grizti li{margin:0 0 10px;font-size:.96rem}
+.grizti a{color:var(--ruda);font-weight:700;text-decoration:none;border-bottom:2px solid var(--oranzine)}
+.kvietimas{margin-top:22px;padding:24px 22px;border-radius:var(--r);border:2px solid var(--oranzine)}
+.kvietimas h2{font-size:1.2rem;font-weight:900;margin:0 0 8px}
+.kvietimas p{font-size:.97rem;margin:0 0 6px}
+.kvietimas .pagrindinis-cta{margin-top:12px}
+@media (prefers-color-scheme:dark){
+  .grizti{color:var(--tekstas)}
+  .grizti a{color:var(--oranzine)}
+}
+
 .atgal{margin-top:24px}
 
 @media (max-width:760px){
@@ -118,9 +133,9 @@
   <!-- 1. Pradžia -->
   <section class="pradzia" id="ekranas-pradzia">
     <h1>Kiek iš tiesų žinote apie apatinį trikotažą?</h1>
-    <p class="paantraste">Patikrinkite savo žinias ir laimėkite iki 15 % nuolaidą!</p>
+    <p class="paantraste" id="paantraste">Patikrinkite savo žinias ir laimėkite iki 15 % nuolaidą!</p>
     <p>Ar tikrai žinote, kaip išsirinkti tinkamą liemenėlę, prižiūrėti apatinį trikotažą ir kokios mažos gudrybės gali praversti kasdien?</p>
-    <p>Atsakykite į 15 klausimų. Už kiekvieną teisingą atsakymą gausite 1 % nuolaidos apsipirkimui SILUETA parduotuvėje arba internetu.</p>
+    <p id="nuolaidos-sakinys">Atsakykite į 15 klausimų. Už kiekvieną teisingą atsakymą gausite 1 % nuolaidos apsipirkimui SILUETA parduotuvėje arba internetu.</p>
     <p>Ir net jei suklysite – po kiekvieno klausimo sužinosite ką nors naudingo!</p>
     <button class="mygtukas" type="button" id="pradeti">Pradėti testą</button>
     <p class="adresas">SILUETA parduotuvė: A. Vienuolio g. 12, Vilnius<br><a href="https://www.silueta.lt/?utm_source=testas&amp;utm_medium=referral&amp;utm_campaign=apatiniu-testas" target="_blank" rel="noopener">www.silueta.lt</a></p>
@@ -166,6 +181,19 @@
    ========================================================================= */
 
 const SVETAINE = 'https://www.silueta.lt';
+
+/* Nuolaida rodoma iki 2026-11-15 imtinai (Vilniaus laiku). Nuo 2026-11-16 testas
+   be nuolaidos: gale - rezultatas, klausimai su nuorodomis ir kvietimas pasimatuoti.
+   Peržiūra be nuolaidos bet kada: adreso gale ?po=1 (kartu ?t=1, kad nerašytų statistikos).
+   Kitai kampanijai: nauji KODAI ir nauja NUOLAIDA_IKI data. */
+const NUOLAIDA_IKI = '2026-11-15';
+const SU_NUOLAIDA = (function(){
+  if (new URLSearchParams(location.search).get('po') === '1') return false;
+  let siandien;
+  try { siandien = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Vilnius' }); }
+  catch (e) { siandien = new Date().toISOString().slice(0, 10); }
+  return siandien <= NUOLAIDA_IKI;
+})();
 
 /* Kodai kiekvienam rezultatui. Daugkartiniai, galioja iki 2026-11-15
    visoms prekėms, taip pat ir akcijinėms. EviShop: Rinkodara -> Nuolaidų kuponai. */
@@ -554,7 +582,7 @@ function rodytiRezultata(){
     teisingi: teisingi,
     klaidingi: klaidingi.sort((a, b) => a - b).join(' '),
     variantai: variantai.sort((a, b) => a.nr - b.nr).map(x => x.nr + x.r).join(' '),
-    procentai: teisingi
+    procentai: SU_NUOLAIDA ? teisingi : ''
   });
   const s = document.getElementById('ekranas-rezultatas');
   s.textContent = '';
@@ -563,7 +591,9 @@ function rodytiRezultata(){
   const a = el('div','atsakymas');
   a.appendChild(el('p','antraste', 'Teisingai atsakėte į ' + teisingi + ' iš ' + viso + ' klausimų.'));
 
-  if (teisingi === 0) {
+  if (!SU_NUOLAIDA) {
+    rezultatasBeNuolaidos(s, a);
+  } else if (teisingi === 0) {
     a.appendChild(el('p','smulkiau', 'Šįkart nė vieno teisingo atsakymo, bet dabar žinote daugiau nei prieš testą. Pabandykite dar kartą!'));
     s.appendChild(a);
   } else {
@@ -601,7 +631,52 @@ function rodytiRezultata(){
   rodytiEkrana('ekranas-rezultatas');
 }
 
+function rezultatasBeNuolaidos(s, a){
+  const viso = KLAUSIMAI.length;
+  const vertinimas =
+    teisingi === viso ? 'Puikiai! Apie apatinius žinote tikrai daug.' :
+    teisingi >= 11   ? 'Labai gerai! Tik keli klausimai užkliuvo.' :
+    teisingi >= 6    ? 'Neblogai - o dabar žinote dar daugiau.' :
+                       'Dabar žinote gerokai daugiau nei prieš testą.';
+  a.appendChild(el('p','vertinimas', vertinimas));
+  s.appendChild(a);
+
+  if (klaidingi.length) {
+    const g = el('div','grizti');
+    g.appendChild(el('h2', null, 'Į šiuos klausimus verta grįžti'));
+    const ul = el('ul');
+    klaidingi.slice().sort((x, y) => x - y).forEach(n => {
+      const k = KLAUSIMAI[n - 1];
+      const li = el('li', null, k.q + ' ');
+      if (k.n) {
+        const l = el('a', null, k.n.t);
+        l.href = k.n.vidine ? k.n.u : suZymemis(k.n.u);
+        l.target = '_blank'; l.rel = 'noopener';
+        li.appendChild(el('br'));
+        li.appendChild(l);
+      }
+      ul.appendChild(li);
+    });
+    g.appendChild(ul);
+    s.appendChild(g);
+  }
+
+  const kv = el('div','kvietimas');
+  kv.appendChild(el('h2', null, 'Nežinote savo dydžio? Užsukite pasimatuoti'));
+  kv.appendChild(el('p', null, 'SILUETA parduotuvėje Vilniuje konsultantės padės išsirinkti liemenėlę, maudymosi kostiumėlį ar kitą trikotažą pagal jūsų dydį ir figūrą. Konsultacija nemokama, užsukti galima ir be registracijos.'));
+  kv.appendChild(el('p', null, 'A. Vienuolio g. 12, Vilnius'));
+  const r = el('a','pagrindinis-cta', 'Registruotis konsultacijai');
+  r.href = suZymemis('/registruokites-individualiai-konsultacijai-2'); r.target = '_blank'; r.rel = 'noopener';
+  kv.appendChild(r);
+  s.appendChild(kv);
+}
+
 /* ---------- paleidimas ---------- */
+
+if (!SU_NUOLAIDA) {
+  document.getElementById('paantraste').textContent = 'Patikrinkite, kiek žinote apie apatinius.';
+  document.getElementById('nuolaidos-sakinys').textContent = 'Atsakykite į 15 klausimų apie liemenėles, apatinius, jų priežiūrą ir kompresines kojines.';
+}
 
 siustiStatistika('testas atidarytas');
 

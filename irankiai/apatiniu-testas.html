@@ -133,7 +133,7 @@
   <!-- 1. Pradžia -->
   <section class="pradzia" id="ekranas-pradzia">
     <h1>Kiek iš tiesų žinote apie apatinį trikotažą?</h1>
-    <p class="paantraste" id="paantraste">Patikrinkite savo žinias ir laimėkite iki 15 % nuolaidą!</p>
+    <p class="paantraste" id="paantraste">Pasitikrinkite savo žinias ir laimėkite iki 15 % nuolaidą!</p>
     <p>Ar tikrai žinote, kaip išsirinkti tinkamą liemenėlę, prižiūrėti apatinį trikotažą ir kokios mažos gudrybės gali praversti kasdien?</p>
     <p id="nuolaidos-sakinys">Atsakykite į 15 klausimų. Už kiekvieną teisingą atsakymą gausite 1 % nuolaidos apsipirkimui SILUETA parduotuvėje arba internetu.</p>
     <p>Ir net jei suklysite – po kiekvieno klausimo sužinosite ką nors naudingo!</p>
@@ -663,8 +663,12 @@ function rezultatasBeNuolaidos(s, a){
 
   const kv = el('div','kvietimas');
   kv.appendChild(el('h2', null, 'Nežinote savo dydžio? Užsukite pasimatuoti'));
-  kv.appendChild(el('p', null, 'SILUETA parduotuvėje Vilniuje konsultantės padės išsirinkti liemenėlę, maudymosi kostiumėlį ar kitą trikotažą pagal jūsų dydį ir figūrą. Konsultacija nemokama, užsukti galima ir be registracijos.'));
-  kv.appendChild(el('p', null, 'A. Vienuolio g. 12, Vilnius'));
+  kv.appendChild(el('p', null, 'Kviečiame užsukti į SILUETA parduotuvę bet kada darbo metu - konsultantės padės išsirinkti liemenėlę, maudymosi kostiumėlį ar kitą trikotažą pagal jūsų dydį ir figūrą. Konsultacija nemokama.'));
+  const adr = el('p', null, 'A. Vienuolio g. 12, Vilnius');
+  adr.appendChild(el('br'));
+  adr.appendChild(document.createTextNode('I-V 10:00 - 19:00, VI 11:00 - 17:00, VII nedirbame'));
+  kv.appendChild(adr);
+  kv.appendChild(el('p', null, 'O jei norite, kad konkreti konsultantė skirtų 45 min. tik Jums, kviečiame registruotis konsultacijai.'));
   const r = el('a','pagrindinis-cta', 'Registruotis konsultacijai');
   r.href = suZymemis('/registruokites-individualiai-konsultacijai-2'); r.target = '_blank'; r.rel = 'noopener';
   kv.appendChild(r);
@@ -674,7 +678,7 @@ function rezultatasBeNuolaidos(s, a){
 /* ---------- paleidimas ---------- */
 
 if (!SU_NUOLAIDA) {
-  document.getElementById('paantraste').textContent = 'Patikrinkite, kiek žinote apie apatinius.';
+  document.getElementById('paantraste').textContent = 'Pasitikrinkite, kiek žinote apie apatinius.';
   document.getElementById('nuolaidos-sakinys').textContent = 'Atsakykite į 15 klausimų apie liemenėles, apatinius, jų priežiūrą ir kompresines kojines.';
 }
 

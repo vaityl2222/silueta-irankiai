@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kiek iš tiesų žinote apie apatinį trikotažą? | Silueta</title>
-<meta name="description" content="15 klausimų apie liemenėles, apatinį trikotažą ir jų priežiūrą. Už kiekvieną teisingą atsakymą – 1 % nuolaidos.">
+<meta name="description" content="15 klausimų apie liemenėles, apatinį trikotažą ir jų priežiūrą. Po kiekvieno klausimo - trumpas paaiškinimas.">
 <meta name="robots" content="noindex, follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,9 +133,9 @@
   <!-- 1. Pradžia -->
   <section class="pradzia" id="ekranas-pradzia">
     <h1>Kiek iš tiesų žinote apie apatinį trikotažą?</h1>
-    <p class="paantraste" id="paantraste">Pasitikrinkite savo žinias ir laimėkite iki 15 % nuolaidą!</p>
+    <p class="paantraste" id="paantraste">Pasitikrinkite, kiek žinote apie apatinius.</p>
     <p>Ar tikrai žinote, kaip išsirinkti tinkamą liemenėlę, prižiūrėti apatinį trikotažą ir kokios mažos gudrybės gali praversti kasdien?</p>
-    <p id="nuolaidos-sakinys">Atsakykite į 15 klausimų. Už kiekvieną teisingą atsakymą gausite 1 % nuolaidos apsipirkimui SILUETA parduotuvėje arba internetu.</p>
+    <p id="nuolaidos-sakinys">Atsakykite į 15 klausimų apie liemenėles, apatinius, jų priežiūrą ir kompresines kojines.</p>
     <p>Ir net jei suklysite – po kiekvieno klausimo sužinosite ką nors naudingo!</p>
     <button class="mygtukas" type="button" id="pradeti">Pradėti testą</button>
     <p class="adresas">SILUETA parduotuvė: A. Vienuolio g. 12, Vilnius<br><a href="https://www.silueta.lt/?utm_source=testas&amp;utm_medium=referral&amp;utm_campaign=apatiniu-testas" target="_blank" rel="noopener">www.silueta.lt</a></p>
@@ -677,9 +677,10 @@ function rezultatasBeNuolaidos(s, a){
 
 /* ---------- paleidimas ---------- */
 
-if (!SU_NUOLAIDA) {
-  document.getElementById('paantraste').textContent = 'Pasitikrinkite, kiek žinote apie apatinius.';
-  document.getElementById('nuolaidos-sakinys').textContent = 'Atsakykite į 15 klausimų apie liemenėles, apatinius, jų priežiūrą ir kompresines kojines.';
+/* HTML'e - tekstas be nuolaidos. Nuolaidos kampanijos metu (SU_NUOLAIDA) jis pakeičiamas. */
+if (SU_NUOLAIDA) {
+  document.getElementById('paantraste').textContent = 'Pasitikrinkite savo žinias ir laimėkite iki 15 % nuolaidą!';
+  document.getElementById('nuolaidos-sakinys').textContent = 'Atsakykite į 15 klausimų. Už kiekvieną teisingą atsakymą gausite 1 % nuolaidos apsipirkimui SILUETA parduotuvėje arba internetu.';
 }
 
 siustiStatistika('testas atidarytas');

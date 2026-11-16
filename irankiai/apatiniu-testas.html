@@ -105,9 +105,7 @@
 .kvietimas{margin-top:22px;padding:24px 22px;border-radius:var(--r);border:2px solid var(--oranzine)}
 .kvietimas h2{font-size:1.2rem;font-weight:900;margin:0 0 8px}
 .kvietimas p{font-size:.97rem;margin:0 0 6px}
-.kvietimas .pagrindinis-cta{margin-top:12px}
-.kvietimas p.pabaiga{margin:14px 0 0}
-@media (prefers-color-scheme:dark){
+.kvietimas .pagrindinis-cta{margin-top:12px}@media (prefers-color-scheme:dark){
   .grizti{color:var(--tekstas)}
   .grizti a{color:var(--oranzine)}
 }
@@ -669,11 +667,10 @@ function rezultatasBeNuolaidos(s, a){
   adr.appendChild(el('br'));
   adr.appendChild(document.createTextNode('I-V 10:00 - 19:00, VI 11:00 - 17:00, VII nedirbame'));
   kv.appendChild(adr);
-  kv.appendChild(el('p', null, 'O jei norite, kad konkreti konsultantė skirtų 45 min. tik Jums, kviečiame registruotis konsultacijai.'));
+  kv.appendChild(el('p', null, 'O jei norite, kad konkreti konsultantė skirtų 45 min. tik Jums, kviečiame registruotis konsultacijai. Konsultacija nemokama.'));
   const r = el('a','pagrindinis-cta', 'Registruotis konsultacijai');
   r.href = suZymemis('/registruokites-individualiai-konsultacijai-2'); r.target = '_blank'; r.rel = 'noopener';
   kv.appendChild(r);
-  kv.appendChild(el('p', 'pabaiga', 'Konsultacija nemokama.'));
   s.appendChild(kv);
 }
 
